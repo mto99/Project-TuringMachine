@@ -1,0 +1,14 @@
+<states>
+	-statename-;-statename-;...
+</states>
+
+<transitionFunction>
+	-currentState-;-readInputFromTape- -> -nextState-;writeToTape-
+	-currentState-;-readInputFromTape- -> -nextState-;
+</transitionFunction>
+
+[
+<tape>
+	-tapeval-;-tapeval-;tapeval-;....
+</tape>
+]
