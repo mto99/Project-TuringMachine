@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="template.dtd"?>
+<configuration>
+	<states>
+		statename;statename;statename;
+	</states>
+	
+	<transitionFunktion>
+		currentState;readInputFromTape -> nextState;writeToTape;
+		currentState;readInputFromTape -> nextState;
+	</transitionFunktion>
+	
+	<tape>
+		tapeval;tapeval;tapeval;
+	</tape>
+
+</configuration>

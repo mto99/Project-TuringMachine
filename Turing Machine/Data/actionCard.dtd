@@ -1,0 +1,4 @@
+<!ELEMENT configuration (states,transitionFunktion,tape)>
+<!ELEMENT states (#PCDATA)>
+<!ELEMENT transitionFunktion (#PCDATA)>
+<!ELEMENT tape (#PCDATA)>
