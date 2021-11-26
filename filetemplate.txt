@@ -12,3 +12,19 @@
 	-tapeval-;-tapeval-;tapeval-;....
 </tape>
 ]
+
+
+{
+	"states": { "allStates": [
+		"statename", "statename"
+	],
+	"startState": "statename"
+	
+	"transitionFunction": [
+	
+	]
+	
+	"tape": 
+	
+
+}
