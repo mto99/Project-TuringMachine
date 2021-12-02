@@ -6,8 +6,8 @@
 	],
 	
 	"startState": "statename",
-	"acceptStates" : ["statename", "statename"],
-	"rejectStates" : ["statename", "statename"],
+	"acceptStates" : "statename",
+	"rejectStates" : "statename",
 	
 	"transitionFunction": [
 		{
