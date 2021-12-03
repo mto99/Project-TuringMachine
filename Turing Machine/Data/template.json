@@ -1,0 +1,32 @@
+{
+	"alphabet" : "charcharcharchar",
+	
+	"states": [
+		"statename", "statename"
+	],
+	
+	"startState": "statename",
+	"acceptStates" : "statename",
+	"rejectStates" : "statename",
+	
+	"transitionFunction": [
+		{
+			"previousState" : "statename",
+			"readSymbol" : "char", 
+			"newState" : "statename",
+			"writtenSymbol" : "char",
+			"movement" : "L"|"R"|"N"
+		},
+		{
+			"previousState" : "statename",
+			"readSymbol" : "char", 
+			"newState" : "statename",
+			"writtenSymbol" : "char",
+			"movement" : "L"|"R"|"N"
+		}
+		
+	],
+	
+	"tape": "...charcharcharchar..." (optional/liste)
+
+}
