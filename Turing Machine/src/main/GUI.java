@@ -1,53 +1,59 @@
 package main;
+import java.awt.Toolkit;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-
 
 public class GUI {
 	
 	private static Display display;
+	
 	private Shell shell;
 	
-	
-	// Constructor
 	public GUI() {
-		
+		initalizeGUI();
+		initalizeSimulatorWindow();
+		initalizeEditingTextField();
 	}
 	
-	
-	// Methods
-	
-	public void intializeGUI() {
+	public void initalizeGUI() {
 		createDisplay();
 		createShell();
-		
-		shell.pack();
-		shell.open();
-		
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) 
-				display.sleep();
-		}
-		
-		display.dispose();
+	}
+	
+	public void initalizeSimulatorWindow() {
 		
 	}
 	
+	public void initalizeEditingTextField() {
+		
+	}
 	
-	//create Display
+	public void openGUI() {
+		this.shell.pack();
+		this.shell.open();
+		
+		while (!this.shell.isDisposed()) {
+			if (!GUI.display.readAndDispatch()) 
+				GUI.display.sleep();
+		}	
+	}
+	
+	public void closeGUI() {
+		GUI.display.dispose();
+	}
+	
 	public void createDisplay() {
-		display = new Display();
+		if(GUI.display==null) {
+			GUI.display = new Display();
+		}
 	}
 	
-	
-	//create Shell
 	public void createShell() {
-		shell = new Shell(display);
-		shell.setMinimumSize(500,300);
-		shell.setText("Turing Machine");
-		shell.setLocation(500,200);
-		
+		this.shell = new Shell(GUI.display);
+		this.shell.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize().width/2,Toolkit.getDefaultToolkit().getScreenSize().height/2);
+		this.shell.setText("Turing Machine");
+		this.shell.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width/4,Toolkit.getDefaultToolkit().getScreenSize().height/4);
 	}
-	
 
 }
