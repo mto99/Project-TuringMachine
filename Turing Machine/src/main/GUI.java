@@ -7,6 +7,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -16,7 +18,10 @@ public class GUI {
 
 	private Shell shell;
 
-	public Text editingField;
+	private MenuItem saveFile;
+	private MenuItem openFile;
+	
+	private Text editingField;
 
 	public GUI() {
 		initalizeGUI();
@@ -24,12 +29,12 @@ public class GUI {
 
 	}
 
-	public void initalizeGUI() {
+	private void initalizeGUI() {
 		createDisplay();
 		createShell();
 	}
 
-	public void createGUIComponents() {
+	private void createGUIComponents() {
 		createMenuBar();
 		createSimulatorWindow();
 		createEditingTextField();
@@ -55,7 +60,7 @@ public class GUI {
 		}
 	}
 
-	public void createShell() {
+	private void createShell() {
 		this.shell = new Shell(GUI.display);
 
 		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -67,20 +72,34 @@ public class GUI {
 		this.shell.setLayout(new GridLayout(2, true));
 	}
 
-	public void createMenuBar() {
+	private void createMenuBar() { 
+		Menu menu = new Menu(shell, SWT.BAR);
+		shell.setMenuBar(menu);
 		
+		createFileMenu(menu);
 	}	
 	
-	public void createSimulatorWindow() {
+	private void createSimulatorWindow() {
 		Label label = new Label(shell, 0);
 		// TODO
 	}
 
-	public void createEditingTextField() {
+	private void createEditingTextField() {
 		editingField = new Text(shell, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
 		editingField.setText("Test");
 		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		editingField.setLayoutData(layoutData);
 	}
 
+	private void createFileMenu(Menu menu) {
+		MenuItem fileMenu = new MenuItem(menu, SWT.CASCADE);
+		fileMenu.setText("Datei");
+		Menu fileDropDown = new Menu(shell, SWT.DROP_DOWN);
+		fileMenu.setMenu(fileDropDown);
+		openFile = new MenuItem(fileDropDown, SWT.PUSH);
+		openFile.setText("Öffnen");
+		saveFile = new MenuItem(fileDropDown, SWT.PUSH);
+		saveFile.setText("Speichern");
+	}
+	
 }
