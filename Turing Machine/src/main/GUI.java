@@ -19,9 +19,12 @@ public class GUI {
 	private Shell shell;
 
 	private MenuItem saveFile;
+	private MenuItem exampleTransitionFunction;
 	private MenuItem openFile;
 	
 	private Text editingField;
+	
+	private MenuItem copyTransitionFunctionTemplate;
 
 	public GUI() {
 		initalizeGUI();
@@ -77,6 +80,7 @@ public class GUI {
 		shell.setMenuBar(menu);
 		
 		createFileMenu(menu);
+		createTemplateMenu(menu);
 	}	
 	
 	private void createSimulatorWindow() {
@@ -86,20 +90,40 @@ public class GUI {
 
 	private void createEditingTextField() {
 		editingField = new Text(shell, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
-		editingField.setText("Test");
+		editingField.setText("Testtext");
 		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		editingField.setLayoutData(layoutData);
 	}
 
-	private void createFileMenu(Menu menu) {
-		MenuItem fileMenu = new MenuItem(menu, SWT.CASCADE);
-		fileMenu.setText("Datei");
-		Menu fileDropDown = new Menu(shell, SWT.DROP_DOWN);
-		fileMenu.setMenu(fileDropDown);
+	private void createFileMenu(Menu parent) {
+		Menu fileDropDown = createMenuDropDown(parent, "&Datei");
 		openFile = new MenuItem(fileDropDown, SWT.PUSH);
-		openFile.setText("Öffnen");
+		openFile.setText("&Öffnen");
+		
+		Menu examples = createMenuDropDown(fileDropDown, "&Beispiele");
+		createExampleDropDown(examples);
+		
 		saveFile = new MenuItem(fileDropDown, SWT.PUSH);
-		saveFile.setText("Speichern");
+		saveFile.setText("&Speichern");
+	}
+	
+	private void createTemplateMenu(Menu parent) {
+		Menu templateDropDown = createMenuDropDown(parent, "&Templates");
+		copyTransitionFunctionTemplate = new MenuItem(templateDropDown, SWT.PUSH);
+		copyTransitionFunctionTemplate.setText("&Übergangsfunktion");
+	}
+	
+	private void createExampleDropDown (Menu parent) {
+		exampleTransitionFunction = new MenuItem(parent, SWT.CASCADE);
+		exampleTransitionFunction.setText("&Beispiel 1");
+	}
+	
+	private Menu createMenuDropDown(Menu parent, String text) {
+		MenuItem menu = new MenuItem(parent, SWT.CASCADE);
+		menu.setText(text);
+		Menu menuDropDown = new Menu(shell, SWT.DROP_DOWN);
+		menu.setMenu(menuDropDown);
+		return menuDropDown;
 	}
 	
 }
