@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import listener.OpenFileListener;
+import listener.SaveFileListener;
 
 public class GUI {
 
@@ -48,6 +49,7 @@ public class GUI {
 
 	private void setListener() {
 		openFile.addSelectionListener(new OpenFileListener(this.shell, this.editingField));
+		saveFile.addSelectionListener(new SaveFileListener(this.shell, this.editingField));
 	}
 	
 	public void openGUI() {

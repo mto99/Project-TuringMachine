@@ -23,6 +23,9 @@ public class OpenFileListener extends SelectionAdapter {
 	public void widgetSelected(SelectionEvent e) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 		String filePath = fileDialog.open();
+		if(filePath==null) {
+			return;
+		}
 		String text = FileIO.readExternalFile(filePath);
 		textField.setText(text);
 	}
