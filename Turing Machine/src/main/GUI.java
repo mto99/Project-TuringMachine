@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import listener.OpenFileListener;
+
 public class GUI {
 
 	private static Display display;
@@ -19,8 +21,9 @@ public class GUI {
 	private Shell shell;
 
 	private MenuItem saveFile;
-	private MenuItem exampleTransitionFunction;
 	private MenuItem openFile;
+	
+	private MenuItem example1;
 	
 	private Text editingField;
 	
@@ -29,7 +32,7 @@ public class GUI {
 	public GUI() {
 		initalizeGUI();
 		createGUIComponents();
-
+		setListener();
 	}
 
 	private void initalizeGUI() {
@@ -43,6 +46,10 @@ public class GUI {
 		createEditingTextField();
 	}
 
+	private void setListener() {
+		openFile.addSelectionListener(new OpenFileListener(this.shell, this.editingField));
+	}
+	
 	public void openGUI() {
 		this.shell.pack();
 		this.shell.open();
@@ -57,7 +64,7 @@ public class GUI {
 		GUI.display.dispose();
 	}
 
-	public void createDisplay() {
+	private void createDisplay() {
 		if (GUI.display == null) {
 			GUI.display = new Display();
 		}
@@ -114,8 +121,8 @@ public class GUI {
 	}
 	
 	private void createExampleDropDown (Menu parent) {
-		exampleTransitionFunction = new MenuItem(parent, SWT.CASCADE);
-		exampleTransitionFunction.setText("&Beispiel 1");
+		example1 = new MenuItem(parent, SWT.CASCADE);
+		example1.setText("&Beispiel 1");
 	}
 	
 	private Menu createMenuDropDown(Menu parent, String text) {
