@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import listener.ExampleFileListener;
 import listener.OpenFileListener;
 import listener.SaveFileListener;
 
@@ -21,13 +22,14 @@ public class GUI {
 
 	private Shell shell;
 
+	private MenuItem newFile;
 	private MenuItem saveFile;
 	private MenuItem openFile;
-	
+
 	private MenuItem example1;
-	
+
 	private Text editingField;
-	
+
 	private MenuItem copyTransitionFunctionTemplate;
 
 	public GUI() {
@@ -50,8 +52,9 @@ public class GUI {
 	private void setListener() {
 		openFile.addSelectionListener(new OpenFileListener(this.shell, this.editingField));
 		saveFile.addSelectionListener(new SaveFileListener(this.shell, this.editingField));
+		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editingField));
 	}
-	
+
 	public void openGUI() {
 		this.shell.pack();
 		this.shell.open();
@@ -84,14 +87,14 @@ public class GUI {
 		this.shell.setLayout(new GridLayout(2, true));
 	}
 
-	private void createMenuBar() { 
+	private void createMenuBar() {
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
-		
+
 		createFileMenu(menu);
 		createTemplateMenu(menu);
-	}	
-	
+	}
+
 	private void createSimulatorWindow() {
 		Label label = new Label(shell, 0);
 		// TODO
@@ -106,27 +109,31 @@ public class GUI {
 
 	private void createFileMenu(Menu parent) {
 		Menu fileDropDown = createMenuDropDown(parent, "&Datei");
+
+		newFile = new MenuItem(fileDropDown, SWT.PUSH);
+		newFile.setText("&Neu");
+
 		openFile = new MenuItem(fileDropDown, SWT.PUSH);
 		openFile.setText("&Öffnen");
-		
+
 		Menu examples = createMenuDropDown(fileDropDown, "&Beispiele");
 		createExampleDropDown(examples);
-		
+
 		saveFile = new MenuItem(fileDropDown, SWT.PUSH);
 		saveFile.setText("&Speichern");
 	}
-	
+
 	private void createTemplateMenu(Menu parent) {
 		Menu templateDropDown = createMenuDropDown(parent, "&Templates");
 		copyTransitionFunctionTemplate = new MenuItem(templateDropDown, SWT.PUSH);
 		copyTransitionFunctionTemplate.setText("&Übergangsfunktion");
 	}
-	
-	private void createExampleDropDown (Menu parent) {
+
+	private void createExampleDropDown(Menu parent) {
 		example1 = new MenuItem(parent, SWT.CASCADE);
 		example1.setText("&Beispiel 1");
 	}
-	
+
 	private Menu createMenuDropDown(Menu parent, String text) {
 		MenuItem menu = new MenuItem(parent, SWT.CASCADE);
 		menu.setText(text);
@@ -134,5 +141,5 @@ public class GUI {
 		menu.setMenu(menuDropDown);
 		return menuDropDown;
 	}
-	
+
 }
