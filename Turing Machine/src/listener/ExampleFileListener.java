@@ -1,17 +1,18 @@
 package listener;
 
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Text;
+
 
 import main.FileIO;
 
 public class ExampleFileListener extends SelectionAdapter {
 
 	private String filePath;
-	private Text textField;
+	private StyledText textField;
 
-	public ExampleFileListener(String filePath, Text textField) {
+	public ExampleFileListener(String filePath, StyledText textField) {
 		this.filePath = filePath;
 		this.textField = textField;
 	}
