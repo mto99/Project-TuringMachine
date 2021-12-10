@@ -2,7 +2,25 @@ package main;
 
 import java.awt.Toolkit;
 
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.text.StyledEditorKit;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.Bullet;
+import org.eclipse.swt.custom.LineStyleEvent;
+import org.eclipse.swt.custom.LineStyleListener;
+import org.eclipse.swt.custom.ST;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.GlyphMetrics;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -10,15 +28,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 import listener.ExampleFileListener;
 import listener.OpenFileListener;
 import listener.SaveFileListener;
+
 
 public class GUI {
 
@@ -32,9 +49,39 @@ public class GUI {
 
 	private MenuItem example1;
 
-	private Text editingField;
+	private StyledText editor;
+	
+	private Label labelSyntaxError;
 
 	private MenuItem copyTransitionFunctionTemplate;
+	
+	private static final String jsonTemplate = "{"
+								+ "\n\t" + '"'+"alphabet"+'"' +" : "+ '"'+"<char>"+'"' +","
+								+ "\n\t" + '"'+"states"+'"' +" : " +"[ ]" +","
+								+ "\n\t" + '"'+"startState"+'"' +" : "+ '"'+"<statename>"+'"' +","
+								+ "\n\t" + '"'+"acceptStates"+'"' +" : "+ '"'+"<statename>"+'"' +","
+								+ "\n\t" + '"'+"rejectStates"+'"' +" : "+ '"'+"<statename>"+'"' +","
+								
+								+ "\n\t" + '"'+"transitionFunction"+'"' +" : "+ "["
+									+ "\n\t\t" + "{"
+										+ "\n\t\t\t" + '"'+"previousState"+'"' +" : "+ '"'+"<statename>"+'"' +","
+										+ "\n\t\t\t" + '"'+"readSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
+										+ "\n\t\t\t" + '"'+"newState"+'"' +" : "+ '"'+"<statename>"+'"' +","
+										+ "\n\t\t\t" + '"'+"writtenSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
+										+ "\n\t\t\t" + '"'+"movement"+'"' +" : "+ '"'+"<L / R / N>"+'"'
+									+ "\n\t\t" + "} ,"
+									+ "\n\t\t" + "{"
+										+ "\n\t\t\t" + '"'+"previousState"+'"' +" : "+ '"'+"<statename>"+'"' +","
+										+ "\n\t\t\t" + '"'+"readSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
+										+ "\n\t\t\t" + '"'+"newState"+'"' +" : "+ '"'+"<statename>"+'"' +","
+										+ "\n\t\t\t" + '"'+"writtenSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
+										+ "\n\t\t\t" + '"'+"movement"+'"' +" : "+ '"'+"<L / R / N>"+'"'
+									+ "\n\t\t" + "}"
+								+ "\n\t]"
+									
+								+ "\n\t" + '"'+"tape"+'"' +" : "+ '"'+"<char,... (optional)>"+'"'
+
+								+ "\n}";
 
 	
 	public GUI() {
@@ -101,9 +148,9 @@ public class GUI {
 	//Create listeners
 	//--------------------------------
 	private void setListener() {
-		openFile.addSelectionListener(new OpenFileListener(this.shell, this.editingField));
-		saveFile.addSelectionListener(new SaveFileListener(this.shell, this.editingField));
-		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editingField));
+		openFile.addSelectionListener(new OpenFileListener(this.shell, this.editor));
+		saveFile.addSelectionListener(new SaveFileListener(this.shell, this.editor));
+		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
 	}
 
 	
@@ -191,14 +238,132 @@ public class GUI {
 		// TODO
 	}
 
+	
 	private void createEditingTextField(Group group) {
 		//label for description
 		Label labelDescription = new Label(group, 0);
-		labelDescription.setText("\nHier you can edit your turing settings");
+		labelDescription.setText("\nHier you can edit your turing machine");
 		
-		editingField = new Text(group, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
-		editingField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		editingField.setText("Testtext");
+//		editingField = new Text(group, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
+//		editingField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		editingField.setText("Testtext");
+		
+		editor = new StyledText(group, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
+		editor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		editor.setMargins(5, 5, 5, 5);
+		editor.insert(jsonTemplate); //insert json template
+		editor.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String text = editor.getText();
+				
+				boolean syntaxError = false;
+				String errorString = "";
+				int marksCount= 0;
+				int bracketCount = 0;
+				int braceCount = 0;
+				
+				for (int i=0; i < text.length(); i++) {
+					//check for "
+					if (text.charAt(i) == '"') {
+						marksCount++;
+					}
+					
+					//check for [/]
+					if (text.charAt(i) == '[') {
+						bracketCount++;
+					}
+					else if (i == ']'){
+						bracketCount--;
+					}
+					
+					//check for {/}
+					if (text.charAt(i) == '{') {
+						braceCount++;
+					}
+					else if (i == '}'){
+						braceCount--;
+					}
+				}
+				
+				//check for errors: "
+				if (marksCount%2 != 0) { //error with "
+					errorString += ("Syntax error: expected token: " + '"' + " .\n");
+					labelSyntaxError.setText(errorString);
+					labelSyntaxError.setForeground(new Color(200, 50, 50));
+					syntaxError = true;
+				}
+				else {
+					syntaxError = false;
+				}
+				
+				//check for errors: [/]
+				if (bracketCount != 0) {
+					errorString += ("Syntax error: expected token bracket [ or ]" + " .\n");
+					labelSyntaxError.setText(errorString);
+					labelSyntaxError.setForeground(new Color(200, 50, 50));
+					syntaxError = true;
+				}
+				else {
+					syntaxError = false;
+				}
+				
+				//check for errors: {/}
+				if (braceCount != 0) {
+					errorString += ("Syntax error: expected token brace { or }" + " .\n");
+					labelSyntaxError.setText(errorString);
+					labelSyntaxError.setForeground(new Color(200, 50, 50));
+					syntaxError = true;
+				}
+				else {
+					syntaxError = false;
+				}
+				
+				
+				//check if any errors found, else set default label text
+				if (syntaxError == false) {
+					labelSyntaxError.setText("No problems");
+					labelSyntaxError.setForeground(new Color(50, 150, 50));
+				}
+				
+			}
+		});
+		
+		//for line numbers
+		editor.addLineStyleListener(new LineStyleListener() { 
+			@Override
+			public void lineGetStyle(LineStyleEvent event) {
+				// Using ST.BULLET_NUMBER sometimes results in weird alignment.
+		        //event.bulletIndex = styledText.getLineAtOffset(event.lineOffset);
+		        StyleRange styleRange = new StyleRange();
+		        styleRange.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+		        int maxLine = editor.getLineCount();
+		        int bulletLength = Integer.toString(maxLine).length();
+		        
+		        // Width of number character is half the height in monospaced font, add 1 character width for right padding.
+		        int bulletWidth = (bulletLength + 1) * editor.getLineHeight() / 2;
+		        styleRange.metrics = new GlyphMetrics(0, 0, bulletWidth);
+		        event.bullet = new Bullet(ST.BULLET_TEXT, styleRange);
+		        // getLineAtOffset() returns a zero-based line index.
+		        int bulletLine = editor.getLineAtOffset(event.lineOffset) + 1;
+		        event.bullet.text = String.format("%" + bulletLength + "s", bulletLine);
+			}
+		});
+		
+		
+		//label for description
+		labelSyntaxError = new Label(group, 0);
+		labelSyntaxError.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		labelSyntaxError.setText("No problems");
+		labelSyntaxError.setForeground(new Color(50, 150, 50));
+		
 	}
 
 	

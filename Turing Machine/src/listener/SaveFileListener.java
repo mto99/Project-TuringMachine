@@ -4,21 +4,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+
 
 import main.FileIO;
 
 public class SaveFileListener extends SelectionAdapter {
 
 	private Shell shell;
-	private Text textField;
+	private StyledText textField;
 
-	public SaveFileListener(Shell shell, Text textField) {
+	public SaveFileListener(Shell shell, StyledText textField) {
 		this.shell = shell;
 		this.textField = textField;
 	}
@@ -32,8 +33,8 @@ public class SaveFileListener extends SelectionAdapter {
 		}
 		if (Files.exists(Path.of(filePath))) {
 			MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_WARNING);
-			messageBox.setText("Datei überschreiben?");
-			messageBox.setMessage("Die Datei existiert schon. Soll die Datei überschrieben werden?");
+			messageBox.setText("Datei ï¿½berschreiben?");
+			messageBox.setMessage("Die Datei existiert schon. Soll die Datei ï¿½berschrieben werden?");
 			if (messageBox.open() == SWT.NO) {
 				return;
 			}

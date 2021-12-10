@@ -1,20 +1,20 @@
 package listener;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 import main.FileIO;
 
 public class OpenFileListener extends SelectionAdapter {
 
 	private Shell shell;
-	private Text textField;
+	private StyledText textField;
 
-	public OpenFileListener(Shell shell, Text textField) {
+	public OpenFileListener(Shell shell, StyledText textField) {
 		this.shell = shell;
 		this.textField = textField;
 	}
