@@ -15,18 +15,18 @@
 			"readSymbol" : "char", 
 			"newState" : "statename",
 			"writtenSymbol" : "char",
-			"movement" : "L"|"R"|"N"
+			"movement" : "L | R | N"
 		},
 		{
 			"previousState" : "statename",
 			"readSymbol" : "char", 
 			"newState" : "statename",
 			"writtenSymbol" : "char",
-			"movement" : "L"|"R"|"N"
+			"movement" : "L | R | N"
 		}
 		
 	],
 	
-	"tape": "...charcharcharchar..." (optional/liste)
+	"tape": "...charcharcharchar..." 
 
 }
