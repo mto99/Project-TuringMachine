@@ -1,19 +1,20 @@
 {
+	"alphabet": ["0","1"],
 	"inputTape":["0","1","1","0","0"],
 	"currentState":"scan",
-	"startPosition": "0",
+	"startPosition": "first",
 	"allStates":["scan","carry","end"],
 	
 	"transitionFunction":{
 	
 		"scan":{
-			"1": ["","R",""],
-			"0": ["","R",""],
+			"1": ["","R","scan"],
+			"0": ["","R","scan"],
 			" ": ["","L","carry"]
 		},
 		
 		"carry":{
-			"1": ["0", "L", ""],
+			"1": ["0", "L", "carry"],
 			"0": ["1", "L", "end"],
 			" ": ["1", "L", "end"]
 		},
