@@ -1,13 +1,15 @@
 package main;
+
+import simulation.TuringMachineSimulator;
+
 public class Main {
 
 	public static void main(String[] args) {
-		Parser parser = new Parser();
-		parser.parseAndValidate("template.json");
+		//GUI app = new GUI();
+		//app.openGUI();
 		
-		//Start GUI
-		GUI app = new GUI();
-		app.openGUI();
+		TuringMachineSimulator turing = new TuringMachineSimulator();
+		turing.run();
 		
 		
 	}

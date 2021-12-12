@@ -14,7 +14,7 @@ public class State {
 	}
 	
 	
-	public TransitionFunction geTransitionFunction(char input) {
+	public TransitionFunction getTransitionFunction(char input) {
 		
 		return null;
 	}
