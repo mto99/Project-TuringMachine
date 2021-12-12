@@ -1,0 +1,22 @@
+{
+	"alphabet": ["A","V","L","X"],
+	"inputTape":["L","X","V","X"],
+	"currentState":"replace",
+	"startPosition": "last",
+	"allStates":["replace","end"],
+	
+	"transitionFunction":{
+	
+		"replace":{
+			"L": ["","L","replace"],
+			"V": ["","L","replace"],
+			"X": ["A","L","replace"],
+			" ": ["", "N", "end"]
+		},
+		
+		"end":{
+		}
+		
+	}
+
+}
