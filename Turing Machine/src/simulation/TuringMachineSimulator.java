@@ -1,5 +1,8 @@
 package simulation;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import org.json.simple.*; 
 
 import main.Parser;
@@ -13,7 +16,8 @@ public class TuringMachineSimulator {
 	
 	
 	public TuringMachineSimulator() {
-		this.jsonObject = parser.parseAndValidate("Data/incrementBinary.json");
+		//this.jsonObject = parser.parseAndValidate("Data/incrementBinary.json");
+		this.jsonObject = parser.parseAndValidate("Data/ReplaceChars.json");
 		//enter inputData to tape
 		JSONArray inputTape = (JSONArray) this.jsonObject.get("inputTape");
 		for (Object object : inputTape) {
@@ -26,7 +30,14 @@ public class TuringMachineSimulator {
 			Turing.allStates.add((String) object);
 		}
 		
-		Turing.head = Integer.parseInt((String) this.jsonObject.get("startPosition"));
+		
+		if (this.jsonObject.get("startPosition").equals("first")) {
+			Turing.head = 0;
+		}
+		else if (this.jsonObject.get("startPosition").equals("last")) {
+			Turing.head = Turing.tape.size()-1;
+		}
+		
 		
 		Turing.currentState = (String) this.jsonObject.get("currentState");
 		
@@ -37,9 +48,19 @@ public class TuringMachineSimulator {
 	
 
 	public void run() {
-		while (!Turing.finished) {
-			step();
-		}
+		
+		printTape();
+//		while (!Turing.finished) {
+//			step();
+//		}
+		
+		step();
+		step();
+		reset();
+		step();
+		step();
+		stepback();
+		stepback();
 
 	}
 	
@@ -47,6 +68,8 @@ public class TuringMachineSimulator {
 	public void step() { // return type could be: void / errorcode/ statuscode
 		
 		try {
+			
+			save();
 			
 			JSONObject currentStateObject = (JSONObject) Turing.transitionFunction.get(Turing.currentState);
 			
@@ -101,9 +124,55 @@ public class TuringMachineSimulator {
 			e.getMessage();
 		}
 		
+	}
+	
+	
+	public void stepback() {
+		
+		try {
+			ArrayList<String[]> saving = Turing.history.getLast();
+		Turing.tape = new LinkedList<Character>();
+		for (var strings : saving.get(0)) {
+			Turing.tape.add(strings.charAt(0));
+		}
+		
+		Turing.head = Integer.parseInt(saving.get(1)[0]);
+		
+		Turing.currentState = saving.get(2)[0];
+		
+		//delete last entry from history
+		Turing.history.removeLast();
+		
+		printTape();
+		
+		} catch (Exception e) {
+			e.getMessage();
+		}
 		
 		
 	}
+	
+	
+	public void save() {
+		
+		String[] arr = new String[Turing.tape.size()];
+		for (int i=0; i < arr.length; i++) {
+			arr[i] = Turing.tape.get(i).toString();
+		}
+		
+		String[] headArray = {Integer.toString(Turing.head)};
+		
+		String[] currentStateArray = {Turing.currentState};
+		
+		ArrayList<String[]> saving = new ArrayList<>();
+		saving.add(arr);
+		saving.add(headArray);
+		saving.add(currentStateArray);
+		
+		Turing.history.add(saving);
+
+	}
+	
 	
 	public void printTape() {
 		Turing.tape.forEach(item -> System.out.print(item + "\t"));
@@ -117,11 +186,41 @@ public class TuringMachineSimulator {
 		
 		
 		for (int i =0; i<Turing.tape.size(); i++) {
-			System.out.print("------");
+			System.out.print("-------");
 		}
 		
 		System.out.println();
 		
+	}
+	
+	
+	public void reset() {
+		JSONArray inputTape = (JSONArray) this.jsonObject.get("inputTape");
+		Turing.tape = new LinkedList<>();
+		for (Object object : inputTape) {
+			char c = (object.toString()).charAt(0);
+			Turing.tape.add(c);
+		}
+		
+		JSONArray allStates = (JSONArray) this.jsonObject.get("allStates");
+		for (Object object : allStates) {
+			Turing.allStates.add((String) object);
+		}
+		
+		
+		if (this.jsonObject.get("startPosition").equals("first")) {
+			Turing.head = 0;
+		}
+		else if (this.jsonObject.get("startPosition").equals("last")) {
+			Turing.head = Turing.tape.size()-1;
+		}
+		
+		
+		Turing.currentState = (String) this.jsonObject.get("currentState");
+		
+		Turing.transitionFunction = (JSONObject) this.jsonObject.get("transitionFunction");
+		
+		printTape();
 	}
 	
 	
@@ -136,11 +235,6 @@ public class TuringMachineSimulator {
 	
 	
 	public void setRejectState(State state) {
-		
-	}
-	
-	
-	public void reset() {
 		
 	}
 	
