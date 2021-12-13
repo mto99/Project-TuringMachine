@@ -21,6 +21,7 @@ public class ExampleFileListener extends SelectionAdapter {
 	public void widgetSelected(SelectionEvent e) {
 		String text = FileIO.readExampleFile(filePath);
 		textField.setText(text);
+		
 	}
 
 }

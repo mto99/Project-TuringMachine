@@ -1,0 +1,20 @@
+{
+	"alphabet": "",
+	"states" : [
+		
+	],
+	"startState" : "",
+	"accepState" : "",
+	"rejectState" : ""
+	"transitionFunction" : [
+		{
+			"previousState" : "",
+			"readSymbol" : "",
+			"newState" : "",
+			"writtenSymbol" : "",
+			"movement" : ""
+		}
+	],
+	
+	"tape" : ""
+}

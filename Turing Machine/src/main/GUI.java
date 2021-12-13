@@ -2,7 +2,6 @@ package main;
 
 import java.awt.Toolkit;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.Bullet;
 import org.eclipse.swt.custom.LineStyleEvent;
@@ -10,14 +9,10 @@ import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GlyphMetrics;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -28,6 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import listener.ExampleFileListener;
 import listener.OpenFileListener;
 import listener.SaveFileListener;
+import listener.TemplateListener;
 
 
 public class GUI {
@@ -44,38 +40,7 @@ public class GUI {
 
 	private StyledText editor;
 	
-	private Label labelSyntaxError;
-
 	private MenuItem copyTransitionFunctionTemplate;
-	
-	private static final String jsonTemplate = "{"
-								+ "\n\t" + '"'+"alphabet"+'"' +" : "+ '"'+"<char>"+'"' +","
-								+ "\n\t" + '"'+"states"+'"' +" : " +"[ ]" +","
-								+ "\n\t" + '"'+"startState"+'"' +" : "+ '"'+"<statename>"+'"' +","
-								+ "\n\t" + '"'+"acceptStates"+'"' +" : "+ '"'+"<statename>"+'"' +","
-								+ "\n\t" + '"'+"rejectStates"+'"' +" : "+ '"'+"<statename>"+'"' +","
-								
-								+ "\n\t" + '"'+"transitionFunction"+'"' +" : "+ "["
-									+ "\n\t\t" + "{"
-										+ "\n\t\t\t" + '"'+"previousState"+'"' +" : "+ '"'+"<statename>"+'"' +","
-										+ "\n\t\t\t" + '"'+"readSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
-										+ "\n\t\t\t" + '"'+"newState"+'"' +" : "+ '"'+"<statename>"+'"' +","
-										+ "\n\t\t\t" + '"'+"writtenSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
-										+ "\n\t\t\t" + '"'+"movement"+'"' +" : "+ '"'+"<L / R / N>"+'"'
-									+ "\n\t\t" + "} ,"
-									+ "\n\t\t" + "{"
-										+ "\n\t\t\t" + '"'+"previousState"+'"' +" : "+ '"'+"<statename>"+'"' +","
-										+ "\n\t\t\t" + '"'+"readSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
-										+ "\n\t\t\t" + '"'+"newState"+'"' +" : "+ '"'+"<statename>"+'"' +","
-										+ "\n\t\t\t" + '"'+"writtenSymbol"+'"' +" : "+ '"'+"<char>"+'"' +","
-										+ "\n\t\t\t" + '"'+"movement"+'"' +" : "+ '"'+"<L / R / N>"+'"'
-									+ "\n\t\t" + "}"
-								+ "\n\t]"
-									
-								+ "\n\t" + '"'+"tape"+'"' +" : "+ '"'+"<char,... (optional)>"+'"'
-
-								+ "\n}";
-
 	
 	public GUI() {
 		initalizeGUI();
@@ -83,10 +48,6 @@ public class GUI {
 		setListener();
 	}
 	
-	
-	//------------------------------
-	//Initialiaze GUI
-	//------------------------------
 	private void initalizeGUI() {
 		createDisplay();
 		createShell();
@@ -107,16 +68,11 @@ public class GUI {
 		GUI.display.dispose();
 	}
 	
-
-	//------------------------------
-	//Create GUI Components
-	//------------------------------
 	private void createDisplay() {
 		if (GUI.display == null) {
 			GUI.display = new Display();
 		}
 	}
-	
 
 	private void createShell() {
 		this.shell = new Shell(GUI.display);
@@ -130,26 +86,19 @@ public class GUI {
 		this.shell.setLayout(new FillLayout());
 	}
 	
-	
 	private void createGUIComponents() {
 		createMenuBar();
 		createBody();
 	}
 	
-	
-	//--------------------------------
-	//Create listeners
-	//--------------------------------
 	private void setListener() {
 		openFile.addSelectionListener(new OpenFileListener(this.shell, this.editor));
 		saveFile.addSelectionListener(new SaveFileListener(this.shell, this.editor));
-		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
+		newFile.addSelectionListener(new ExampleFileListener("/examples/newFile.json", this.editor));
+		setExampleListeners();
+		setTemplateListeners();
 	}
-
 	
-	//--------------------------------
-	//Create menubar
-	//--------------------------------
 	private void createMenuBar() {
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
@@ -158,6 +107,13 @@ public class GUI {
 		createTemplateMenu(menu);
 	}
 	
+	private void setExampleListeners() {
+		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
+	}
+	
+	private void setTemplateListeners() {
+		copyTransitionFunctionTemplate.addSelectionListener(new TemplateListener());
+	}
 	
 	private void createFileMenu(Menu parent) {
 		Menu fileDropDown = createMenuDropDown(parent, "&Datei");
@@ -166,7 +122,7 @@ public class GUI {
 		newFile.setText("&Neu");
 
 		openFile = new MenuItem(fileDropDown, SWT.PUSH);
-		openFile.setText("&ï¿½ffnen");
+		openFile.setText("&Öffnen");
 
 		Menu examples = createMenuDropDown(fileDropDown, "&Beispiele");
 		createExampleDropDown(examples);
@@ -174,12 +130,11 @@ public class GUI {
 		saveFile = new MenuItem(fileDropDown, SWT.PUSH);
 		saveFile.setText("&Speichern");
 	}
-
 	
 	private void createTemplateMenu(Menu parent) {
 		Menu templateDropDown = createMenuDropDown(parent, "&Templates");
 		copyTransitionFunctionTemplate = new MenuItem(templateDropDown, SWT.PUSH);
-		copyTransitionFunctionTemplate.setText("&ï¿½bergangsfunktion");
+		copyTransitionFunctionTemplate.setText("&Übergangsfunktion");
 	}
 
 	
@@ -196,145 +151,31 @@ public class GUI {
 		menu.setMenu(menuDropDown);
 		return menuDropDown;
 	}
-	
-	
 
-	//------------------------------
-	//Create body
-	//------------------------------
-	
 	private void createBody() {
-		//create composite of simulator and text field
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setLayout(new GridLayout(2, true));
-		composite.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		
-		//create simulator 
-		Group groupSimulator = new Group(composite, SWT.FILL);
+
+		Group groupSimulator = new Group(shell, SWT.FILL);
 		groupSimulator.setLayout(new GridLayout(1,true));
 		groupSimulator.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		groupSimulator.setText("Simulator");
 		createSimulatorField(groupSimulator);
 		
-		//create text field
-		Group groupTextField = new Group(composite, SWT.FILL);
-		groupTextField.setLayout(new GridLayout(1,true));
-		groupTextField.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		groupTextField.setText("Text Field");
-		createEditingTextField(groupTextField);
+		createEditingTextField(shell);
 	}
 	
-	
 	private void createSimulatorField(Group group) {
-		Label label = new Label(group, SWT.NONE);
-		label.setText("\nThe turing simulator will appear here! ");
 		// TODO
 	}
 
-	
-	private void createEditingTextField(Group group) {
-		//label for description
-		Label labelDescription = new Label(group, 0);
-		labelDescription.setText("\nHier you can edit your turing machine");
+	private void createEditingTextField(Shell parent) {		
 		
-//		editingField = new Text(group, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
-//		editingField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-//		editingField.setText("Testtext");
-		
-		editor = new StyledText(group, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
+		editor = new StyledText(parent, SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
 		editor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		editor.setMargins(5, 5, 5, 5);
-		editor.insert(jsonTemplate); //insert json template
-		editor.addKeyListener(new KeyListener() {
 			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				String text = editor.getText();
-				
-				boolean syntaxError = false;
-				String errorString = "";
-				int marksCount= 0;
-				int bracketCount = 0;
-				int braceCount = 0;
-				
-				for (int i=0; i < text.length(); i++) {
-					//check for "
-					if (text.charAt(i) == '"') {
-						marksCount++;
-					}
-					
-					//check for [/]
-					if (text.charAt(i) == '[') {
-						bracketCount++;
-					}
-					else if (i == ']'){
-						bracketCount--;
-					}
-					
-					//check for {/}
-					if (text.charAt(i) == '{') {
-						braceCount++;
-					}
-					else if (i == '}'){
-						braceCount--;
-					}
-				}
-				
-				//check for errors: "
-				if (marksCount%2 != 0) { //error with "
-					errorString += ("Syntax error: expected token: " + '"' + " .\n");
-					labelSyntaxError.setText(errorString);
-					labelSyntaxError.setForeground(new Color(200, 50, 50));
-					syntaxError = true;
-				}
-				else {
-					syntaxError = false;
-				}
-				
-				//check for errors: [/]
-				if (bracketCount != 0) {
-					errorString += ("Syntax error: expected token bracket [ or ]" + " .\n");
-					labelSyntaxError.setText(errorString);
-					labelSyntaxError.setForeground(new Color(200, 50, 50));
-					syntaxError = true;
-				}
-				else {
-					syntaxError = false;
-				}
-				
-				//check for errors: {/}
-				if (braceCount != 0) {
-					errorString += ("Syntax error: expected token brace { or }" + " .\n");
-					labelSyntaxError.setText(errorString);
-					labelSyntaxError.setForeground(new Color(200, 50, 50));
-					syntaxError = true;
-				}
-				else {
-					syntaxError = false;
-				}
-				
-				
-				//check if any errors found, else set default label text
-				if (syntaxError == false) {
-					labelSyntaxError.setText("No problems");
-					labelSyntaxError.setForeground(new Color(50, 150, 50));
-				}
-				
-			}
-		});
-		
-		//for line numbers
 		editor.addLineStyleListener(new LineStyleListener() { 
 			@Override
 			public void lineGetStyle(LineStyleEvent event) {
-				// Using ST.BULLET_NUMBER sometimes results in weird alignment.
-		        //event.bulletIndex = styledText.getLineAtOffset(event.lineOffset);
 		        StyleRange styleRange = new StyleRange();
 		        styleRange.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
 		        int maxLine = editor.getLineCount();
@@ -344,21 +185,11 @@ public class GUI {
 		        int bulletWidth = (bulletLength + 1) * editor.getLineHeight() / 2;
 		        styleRange.metrics = new GlyphMetrics(0, 0, bulletWidth);
 		        event.bullet = new Bullet(ST.BULLET_TEXT, styleRange);
-		        // getLineAtOffset() returns a zero-based line index.
+
 		        int bulletLine = editor.getLineAtOffset(event.lineOffset) + 1;
 		        event.bullet.text = String.format("%" + bulletLength + "s", bulletLine);
 			}
-		});
-		
-		
-		//label for description
-		labelSyntaxError = new Label(group, 0);
-		labelSyntaxError.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		labelSyntaxError.setText("No problems");
-		labelSyntaxError.setForeground(new Color(50, 150, 50));
-		
+		});	
 	}
-
-	
 
 }
