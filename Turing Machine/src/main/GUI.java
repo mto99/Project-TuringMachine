@@ -9,10 +9,13 @@ import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GlyphMetrics;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -38,6 +41,8 @@ public class GUI {
 
 	private MenuItem example1;
 
+	private Label infoLog;
+	
 	private StyledText editor;
 	
 	private MenuItem copyTransitionFunctionTemplate;
@@ -83,7 +88,7 @@ public class GUI {
 		this.shell.setMinimumSize(screenWidth >> 1, screenHeight >> 1);
 		this.shell.setText("Turing Machine");
 		this.shell.setLocation(screenWidth >> 2, screenHeight >> 2);
-		this.shell.setLayout(new FillLayout());
+		this.shell.setLayout(new GridLayout(2,true));
 	}
 	
 	private void createGUIComponents() {
@@ -153,18 +158,35 @@ public class GUI {
 	}
 
 	private void createBody() {
-
 		Group groupSimulator = new Group(shell, SWT.FILL);
 		groupSimulator.setLayout(new GridLayout(1,true));
-		groupSimulator.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+		groupSimulator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		groupSimulator.setText("Simulator");
+		
 		createSimulatorField(groupSimulator);
+		createInfoLog(groupSimulator);
 		
 		createEditingTextField(shell);
 	}
 	
-	private void createSimulatorField(Group group) {
-		// TODO
+	private void createSimulatorField(Group parent) {
+		Composite simulator = new Composite(parent, SWT.FILL);
+		simulator.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+		simulator.setLayout(new GridLayout(5, true));
+		
+		Label currentStateName = new Label(simulator, SWT.CENTER);
+		currentStateName.setText("start");
+		currentStateName.setLayoutData(new GridData(SWT.CENTER, SWT.BEGINNING, false, false, 5, 1));
+		currentStateName.setFont(new Font(display, "Arial", 15, SWT.BOLD));
+		
+		createTape(simulator);
+		createSimulatorButtons(simulator);
+	}
+	
+	private void createInfoLog(Group parent) {
+		infoLog = new Label(parent, SWT.FILL);
+		infoLog.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
+		infoLog.setText("Text");
 	}
 
 	private void createEditingTextField(Shell parent) {		
@@ -191,5 +213,37 @@ public class GUI {
 			}
 		});	
 	}
+	
+	private void createTape(Composite simulator) {
+		Button tape1 = new Button(simulator, SWT.PUSH);
+		tape1.setEnabled(false);
+		tape1.setText("0");
+		Button tape2 = new Button(simulator, SWT.PUSH);
+		tape2.setEnabled(false);
+		tape2.setText("0");
+		Button tape3 = new Button(simulator, SWT.PUSH);
+		tape3.setEnabled(false);
+		tape3.setText("0");
+		tape3.setBackground(new Color(255, 255, 255));
+		Button tape4 = new Button(simulator, SWT.PUSH);
+		tape4.setEnabled(false);
+		tape4.setText("0");
+		Button tape5 = new Button(simulator, SWT.PUSH);
+		tape5.setEnabled(false);
+		tape5.setText("0");
+	}
 
+	private void createSimulatorButtons(Composite simulator) {
+		Button compile = new Button(simulator, SWT.PUSH);
+		compile.setText("Kompilieren");
+		Button play = new Button(simulator, SWT.PUSH);
+		play.setText("Start");
+		Button pause = new Button(simulator, SWT.PUSH);
+		pause.setText("Pause");
+		Button step = new Button(simulator, SWT.PUSH);
+		step.setText("Step");
+		Button reset = new Button(simulator, SWT.PUSH);
+		reset.setText("Zurücksetzen");
+	}
+	
 }

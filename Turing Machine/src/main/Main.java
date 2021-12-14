@@ -7,6 +7,7 @@ public class Main {
 		//Start GUI
 		GUI app = new GUI();
 		app.openGUI();
+		app.closeGUI();
 		
 		//TuringMachineSimulator t = new TuringMachineSimulator();
 		//t.run();
