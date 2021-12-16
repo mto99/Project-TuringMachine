@@ -5,29 +5,28 @@
 
 ```
 {
-	"inputTape": <chars in JSONArray>,
-	"currentState":<statename>,
+	"tape": <chars in String,no spaces>,
+	"alphabet": <chars in String,no spaces>,
+	"startState":<statename>,
 	"startPosition": <startposition>,
-	"allStates": <All states in JSONArray,
+	"allStates": <All states in Array>,
+	"acceptStates": <states in Array>,
+	"rejectStates": <states in Array>,
 	
-	"transitionFunction":{
-	
-		<statename>:{
-			<input>: [<output>,<movement>,<nextState>],
-			<input>: [<output>,<movement>,<nextState>],
-			...
-		},
+	"transitionFunction":
+		<Array of Transition Functions>
 		
-		<statename>:{
-			<input>: [<output>,<movement>,<nextState>],
-			...
-		},
 		
-		...
-		
-	}
-  
 }
+
+TransitionFunction
+{
+	"previousState" : <statename>,
+	"readSymbol" : <char>, 
+	"newState" : <statename>,
+	"writtenSymbol" : <char>,
+	"movement" : <char:L|R|N>
+},
 
 ```
 
@@ -35,27 +34,51 @@
 
 ```
 {
-	"inputTape":["0","1","1","0","0"],
-	"currentState":"scan",
-	"startPosition": "0",
-	"allStates":["scan","carry","end"],
+	"alphabet": "AVLX",
+	"tape":"LXVX",
+	"startState":"replace",
+	"startPosition": "last",
+	"allStates":["replace","end"],
+	"rejectStates":[" "],
+	"acceptStates": ["end"],
 	
-	"transitionFunction":{
-	
-		"scan":{
-			"1": ["","R",""],
-			"0": ["","R",""],
-			" ": ["","L","carry"]
+	"transitionFunction":[
+		{
+			"previousState" : "replace",
+			"readSymbol" : "L", 
+			"newState" : "replace",
+			"writtenSymbol" : " ",
+			"movement" : "L"
 		},
-		
-		"carry":{
-			"1": ["0", "L", ""],
-			"0": ["1", "L", "end"],
-			" ": ["1", "L", "end"]
+		{
+			"previousState" : "replace",
+			"readSymbol" : "V", 
+			"newState" : "replace",
+			"writtenSymbol" : " ",
+			"movement" : "L"
 		},
-		
-		"end":{
+		{
+			"previousState" : "replace",
+			"readSymbol" : "X", 
+			"newState" : "replace",
+			"writtenSymbol" : "A",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "replace",
+			"readSymbol" : " ", 
+			"newState" : "end",
+			"writtenSymbol" : " ",
+			"movement" : "N"
+		},
+		{
+			"previousState" : "end",
+			"readSymbol" : " ", 
+			"newState" : "end",
+			"writtenSymbol" : " ",
+			"movement" : "N"
 		}
 		
-	}
+	]
+}
 ```
