@@ -1,22 +1,46 @@
 {
-	"alphabet": ["A","V","L","X"],
-	"inputTape":["L","X","V","X"],
-	"currentState":"replace",
+	"alphabet": "AVLX",
+	"tape":"LXVX",
+	"startState":"replace",
 	"startPosition": "last",
 	"allStates":["replace","end"],
 	
-	"transitionFunction":{
-	
-		"replace":{
-			"L": ["","L","replace"],
-			"V": ["","L","replace"],
-			"X": ["A","L","replace"],
-			" ": ["", "N", "end"]
+	"transitionFunction":[
+		{
+			"previousState" : "replace",
+			"readSymbol" : "L", 
+			"newState" : "replace",
+			"writtenSymbol" : " ",
+			"movement" : "L"
 		},
-		
-		"end":{
+		{
+			"previousState" : "replace",
+			"readSymbol" : "V", 
+			"newState" : "replace",
+			"writtenSymbol" : " ",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "replace",
+			"readSymbol" : "X", 
+			"newState" : "replace",
+			"writtenSymbol" : "A",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "replace",
+			"readSymbol" : " ", 
+			"newState" : "end",
+			"writtenSymbol" : " ",
+			"movement" : "N"
+		},
+		{
+			"previousState" : "end",
+			"readSymbol" : " ", 
+			"newState" : "end",
+			"writtenSymbol" : " ",
+			"movement" : "N"
 		}
 		
-	}
-
+	]
 }

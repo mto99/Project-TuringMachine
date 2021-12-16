@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Data"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-16">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
@@ -11,5 +11,8 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.swt.win32.win32.x86_64_3.117.0.v20210906-0842.jar" sourcepath="lib/org.eclipse.swt.win32.win32.x86_64.source_3.117.0.v20210906-0842.jar"/>
 	<classpathentry kind="lib" path="lib/org.json.jar"/>
 	<classpathentry kind="lib" path="lib/org.json.simple.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luca/eclipse-workspace/Project-TuringMachine/Lib/jackson-databind-2.13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luca/eclipse-workspace/Project-TuringMachine/Lib/jackson-core-2.13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luca/eclipse-workspace/Project-TuringMachine/Lib/jackson-annotations-2.13.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
