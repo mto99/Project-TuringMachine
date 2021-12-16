@@ -26,29 +26,7 @@ public class TuringMachineSimulator {
 		//enter inputData to tape
 		System.out.println(parser);
 		
-		Turing.acceptingStates = parser.getAcceptStates();
-		
-		for( int i=0; i<parser.getTape().length();i++)
-		{
-			Turing.tape.add(parser.getTape().charAt(i));
-		}
-		
-		Turing.allStates = parser.getAllStates();
-		
-		
-		if (parser.getStartPosition().equals("first")) {
-			Turing.head = 0;
-		}
-		else if (parser.getStartPosition().equals("last")) {
-			Turing.head = Turing.tape.size()-1;
-		}
-		
-		
-		Turing.currentState = parser.getStartState().toString();
-		
-		Turing.transitionFunction = parser.getTransitionFunction();
-		
-		
+		reset();
 	}
 	
 
@@ -61,11 +39,17 @@ public class TuringMachineSimulator {
 		
 		step();
 		step();
+		step();
+		step();
+		step();
+		step();
+		step();
+		step();
 		reset();
-		step();
-		step();
-		stepback();
-		stepback();
+		//step();
+		//step();
+		//stepback();
+		//stepback();
 
 	}
 	
@@ -74,58 +58,62 @@ public class TuringMachineSimulator {
 		
 		try {
 			
-			save();
+			//save();
 			
-			JSONObject currentStateObject = (JSONObject) Turing.transitionFunction.get(Turing.currentState);
-			
-			if (currentStateObject.isEmpty() || currentStateObject == null) {
-				Turing.finished = true;
-				
-				System.out.println("END");
-			}
-			
-			if(Turing.acceptingStates.contains(Turing.currentState))
+			for(State state: Turing.acceptingStates)
 			{
-				
+				if(state.toString().equals(Turing.currentState.toString()))
+				{
+					Turing.finished = true;
+					
+					System.out.println("END");
+					return;
+				}
 			}
 			
 			//get input
-			JSONArray currentStateArray = (JSONArray) currentStateObject.get(Turing.tape.get(Turing.head).toString());
+			char input = Turing.tape.get(Turing.head);
 			
-			
-			//check for output
-			if (currentStateArray.toArray()[0] == "") {
-				//nothing to do
-			}
-			else { //replace input with output
-				char c = (currentStateArray.toArray()[0]).toString().charAt(0);
-				Turing.tape.set(Turing.head, c);
-			}
-			
-			
-			//movement
-			if (currentStateArray.toArray()[1].toString().charAt(0) == 'R') {
-				Turing.head++;
-				if (Turing.head+1 > Turing.tape.size())
-					Turing.tape.addLast(' ');
-			}
-			else if (currentStateArray.toArray()[1].toString().charAt(0) == 'L') {
-				if (Turing.head == 0)
-					Turing.tape.addFirst(' ');
-				else 
-					Turing.head--;
-			}
-			else if (currentStateArray.toArray()[1].toString().charAt(0) == 'N') {
-				//
-			}
-
-			
-			//get next state
-			if (currentStateArray.toArray()[2] == ""){
-				//nothing to do
-			}else {
-				Turing.currentState = (String) currentStateArray.toArray()[2];
-			}
+			for(TransitionFunction tf: parser.getTransitionFunction())
+			{
+				//System.out.println(Turing.currentState);
+				//System.out.println(tf.getPreviousState());
+				//System.out.println(Turing.currentState);
+				if(tf.getPreviousState().toString().equals(Turing.currentState.toString()) && 
+						tf.getReadSymbol() == input)
+				{
+					//check for output
+					if(tf.getWrittenSymbol() != ' ')
+					{
+						Turing.tape.set(Turing.head, tf.getWrittenSymbol());
+					}
+					
+					//movement
+					if (tf.getMovement() == 'R') {
+						Turing.head++;
+						if (Turing.head+1 > Turing.tape.size())
+							Turing.tape.addLast(' ');
+					}
+					else if (tf.getMovement() == 'L') {
+						if (Turing.head == 0)
+							Turing.tape.addFirst(' ');
+						else 
+							Turing.head--;
+					}
+					else if (tf.getMovement() ==  'N') {
+						//
+					}
+					
+					//get next state
+					
+					if (tf.getNewState().toString() == " "){
+						//nothing to do
+					}else {
+						Turing.currentState = tf.getNewState();
+					}
+					break;
+				}
+			}			
 				
 			printTape();
 			
@@ -148,7 +136,7 @@ public class TuringMachineSimulator {
 		
 		Turing.head = Integer.parseInt(saving.get(1)[0]);
 		
-		Turing.currentState = saving.get(2)[0];
+		Turing.currentState = new State(saving.get(2)[0]); 
 		
 		//delete last entry from history
 		Turing.history.removeLast();
@@ -172,7 +160,7 @@ public class TuringMachineSimulator {
 		
 		String[] headArray = {Integer.toString(Turing.head)};
 		
-		String[] currentStateArray = {Turing.currentState};
+		String[] currentStateArray = {Turing.currentState.toString()};
 		
 		ArrayList<String[]> saving = new ArrayList<>();
 		saving.add(arr);
@@ -207,15 +195,16 @@ public class TuringMachineSimulator {
 	public void reset() {
 		
 		
+		Turing.acceptingStates = parser.getAcceptStates();
+		
+		Turing.tape.clear();
+		
 		for( int i=0; i<parser.getTape().length();i++)
 		{
 			Turing.tape.add(parser.getTape().charAt(i));
 		}
 		
-		ArrayList<State> allStates = parser.getAllStates();
-		for (State state: allStates) {
-			Turing.allStates.add(state.toString());
-		}
+		Turing.allStates = parser.getAllStates();
 		
 		
 		if (parser.getStartPosition().equals("first")) {
@@ -226,7 +215,7 @@ public class TuringMachineSimulator {
 		}
 		
 		
-		Turing.currentState = parser.getStartState().toString();
+		Turing.currentState = parser.getStartState();
 		
 		Turing.transitionFunction = parser.getTransitionFunction();
 		
