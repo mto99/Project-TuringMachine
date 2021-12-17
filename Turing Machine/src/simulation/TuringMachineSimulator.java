@@ -208,6 +208,9 @@ public class TuringMachineSimulator {
 		
 		Turing.transitionFunction = parser.getTransitionFunction();
 		
+		//empty history
+		Turing.history = new LinkedList<>();
+		
 		printTape();
 		
 		System.out.println("---Reset---");
