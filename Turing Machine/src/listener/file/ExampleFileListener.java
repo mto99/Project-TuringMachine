@@ -1,4 +1,4 @@
-package listener;
+package listener.file;
 
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
