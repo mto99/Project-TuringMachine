@@ -20,24 +20,30 @@ public class TuringMachineSimulator {
 	String text;
 
 	
-	public TuringMachineSimulator() throws JsonMappingException, JsonProcessingException {
-		
-		text = parser.parseAndValidate(FileIO.readExternalFile("Data/newNewReplaceChars.json"));
-		//enter inputData to tape
-		System.out.println(parser);
-		
-		reset();
+	public TuringMachineSimulator(){
+		reload();
 	}
 	
 
-	public void run() {
+	public void reload() {
 		
-		//printTape();
-		while (!Turing.finished) {
-			step();
+		try {
+			text = parser.parseAndValidate(FileIO.readExternalFile("Data/newNewReplaceChars.json"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-
+	}
+	
+	public void run() {
+		step();
+		step();
+		step();
+		
+		reload();
+		
+		step();
+		step();
 	}
 	
 	
