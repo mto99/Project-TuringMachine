@@ -1,46 +1,25 @@
-package main;
+package listener.simulator;
 
 import java.util.ArrayList;
+
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import main.GUI;
 import simulation.TuringMachineSimulator;
 
-public class RunSimulator implements Runnable {
+public class SimulatorDrawListener extends SimulatorListener {
 
-	private boolean running = false;
-	private Display display;
-	private TuringMachineSimulator simulator;
-	private Button[] tape;
-	private Label currentState;
+	protected Button[] tape;
+	protected Label currentState;
 
-	public RunSimulator(Display display, TuringMachineSimulator simulator, Button[] tape, Label currentState) {
-		this.display = display;
-		this.simulator = simulator;
+	public SimulatorDrawListener(TuringMachineSimulator simulator, Button[] tape, Label currentState) {
+		super(simulator);
 		this.tape = tape;
 		this.currentState = currentState;
 	}
-
-	@Override
-	public void run() {
-		if (running) {
-			simulator.step();
-			updateGUI();
-			display.timerExec(2000, this);
-		}
-	}
-
-	public void stop() {
-		this.running = false;
-	}
-
-	public void start() {
-		this.running = true;
-		display.timerExec(2000, this);
-	}
-
-	public void updateGUI() {
+	
+	protected void updateGUI() {
 		//TODO currentState.setText(simulator.getCurrentState().getName());
 		currentState.setText("newState");
 		updateTape();
@@ -69,5 +48,4 @@ public class RunSimulator implements Runnable {
 			}
 		}
 	}
-	
 }

@@ -39,7 +39,7 @@ import simulation.TuringMachineSimulator;
 
 public class GUI {
 
-	private static final int TAPE_ELEMENT_NUMBER = 13;
+	public static final int TAPE_ELEMENT_NUMBER = 13;
 	private static Display display;
 
 	private Shell shell;
@@ -64,6 +64,7 @@ public class GUI {
 	private MenuItem copyTransitionFunctionTemplate;
 
 	private Button[] tape;
+	private Label currentStateName;
 
 	private TuringMachineSimulator simulator;
 	
@@ -77,7 +78,7 @@ public class GUI {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		runSimulator = new RunSimulator(display, simulator);
+		runSimulator = new RunSimulator(display, simulator, tape, currentStateName);
 		setListener();
 	}
 
@@ -151,10 +152,10 @@ public class GUI {
 	private void setSimulatorListeners() {
 		play.addSelectionListener(new StartListener(simulator, runSimulator));
 		pause.addSelectionListener(new PauseListener(simulator, runSimulator));
-		step.addSelectionListener(new StepListener(simulator));
-		stepBack.addSelectionListener(new StepbackListener(simulator));
-		reset.addSelectionListener(new ResetListener(simulator));
-		reload.addSelectionListener(new ReloadListener(simulator));
+		step.addSelectionListener(new StepListener(simulator, tape, currentStateName));
+		stepBack.addSelectionListener(new StepbackListener(simulator, tape, currentStateName));
+		reset.addSelectionListener(new ResetListener(simulator, tape, currentStateName));
+		reload.addSelectionListener(new ReloadListener(simulator, tape, currentStateName));
 	}
 	
 	private void createFileMenu(Menu parent) {
@@ -205,9 +206,9 @@ public class GUI {
 		groupSimulator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		groupSimulator.setText("Simulator");
 
-		Label currentStateName = new Label(groupSimulator, SWT.CENTER);
-		currentStateName.setText("start");
-		currentStateName.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 5, 1));
+		currentStateName = new Label(groupSimulator, SWT.CENTER);
+		currentStateName.setText("currentState");
+		currentStateName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 5, 1));
 		currentStateName.setFont(new Font(display, "Arial", 15, SWT.BOLD));
 
 		createTape(groupSimulator);
@@ -220,7 +221,6 @@ public class GUI {
 	private void createInfoLog(Group parent) {
 		infoLog = new Label(parent, SWT.FILL);
 		infoLog.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
-		infoLog.setText("Text");
 	}
 
 	private void createEditingTextField(Shell parent) {
