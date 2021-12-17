@@ -23,8 +23,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import listener.file.ExampleFileListener;
 import listener.file.OpenFileListener;
 import listener.file.SaveFileListener;
@@ -49,6 +47,7 @@ public class GUI {
 	private MenuItem openFile;
 
 	private MenuItem example1;
+	private MenuItem example2;
 
 	private Label infoLog;
 
@@ -73,11 +72,7 @@ public class GUI {
 	public GUI() {
 		initalizeGUI();
 		createGUIComponents();
-		try {
-			simulator = new TuringMachineSimulator();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		simulator = new TuringMachineSimulator();
 		runSimulator = new RunSimulator(display, simulator, tape, currentStateName);
 		setListener();
 	}
@@ -143,6 +138,7 @@ public class GUI {
 
 	private void setExampleListeners() {
 		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
+		example2.addSelectionListener(new ExampleFileListener("/examples/newNewReplaceChars.json", this.editor));
 	}
 
 	private void setTemplateListeners() {
@@ -155,7 +151,7 @@ public class GUI {
 		step.addSelectionListener(new StepListener(simulator, tape, currentStateName));
 		stepBack.addSelectionListener(new StepbackListener(simulator, tape, currentStateName));
 		reset.addSelectionListener(new ResetListener(simulator, tape, currentStateName));
-		reload.addSelectionListener(new ReloadListener(simulator, tape, currentStateName));
+		reload.addSelectionListener(new ReloadListener(simulator, tape, currentStateName, editor));
 	}
 	
 	private void createFileMenu(Menu parent) {
@@ -182,7 +178,9 @@ public class GUI {
 
 	private void createExampleDropDown(Menu parent) {
 		example1 = new MenuItem(parent, SWT.CASCADE);
-		example1.setText("&Beispiel 1");
+		example1.setText("&Template");
+		example2 = new MenuItem(parent, SWT.CASCADE);
+		example2.setText("&Replace Chars");
 	}
 
 	private Menu createMenuDropDown(Menu parent, String text) {

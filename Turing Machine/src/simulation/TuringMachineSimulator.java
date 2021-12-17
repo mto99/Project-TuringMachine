@@ -3,12 +3,8 @@ package simulation;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.json.simple.*;
+import org.json.simple.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
-import main.FileIO;
 import main.Parser;
 
 
@@ -21,14 +17,14 @@ public class TuringMachineSimulator {
 
 	
 	public TuringMachineSimulator(){
-		reload();
+		//reload();
 	}
 	
 
-	public void reload() {
+	public void reload(String text) {
 		
 		try {
-			text = parser.parseAndValidate(FileIO.readExternalFile("Data/newNewReplaceChars.json"));
+			String statuscode = parser.parseAndValidate(text);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +36,7 @@ public class TuringMachineSimulator {
 		step();
 		step();
 		
-		reload();
+		//reload();
 		
 		step();
 		step();
