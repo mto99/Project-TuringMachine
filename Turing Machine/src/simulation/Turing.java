@@ -7,13 +7,15 @@ import java.util.LinkedList;
 public class Turing {
 	
 	
-	protected static State currentState;
+	public static State currentState;
 	protected static State nextState;
 	protected static ArrayList<State> allStates;
 	protected static ArrayList<State> acceptingStates;
-	protected static int head;
+	public static int head;
+	public static char blank;
 	protected static ArrayList<TransitionFunction> transitionFunction;
-	protected static LinkedList<Character> tape = new LinkedList<Character>();
+	public static LinkedList<Character> tape = new LinkedList<Character>();
 	protected static LinkedList<ArrayList<String[]>> history = new LinkedList<>();
 	protected static Boolean finished = false;
+	
 }

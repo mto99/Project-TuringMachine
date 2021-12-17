@@ -1,11 +1,12 @@
 package listener.simulator;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 
 import main.GUI;
+import simulation.Turing;
 import simulation.TuringMachineSimulator;
 
 public class SimulatorDrawListener extends SimulatorListener {
@@ -20,25 +21,14 @@ public class SimulatorDrawListener extends SimulatorListener {
 	}
 	
 	protected void updateGUI() {
-		//TODO currentState.setText(simulator.getCurrentState().getName());
-		currentState.setText("newState");
+		currentState.setText(Turing.currentState.getName());
 		updateTape();
 	}
 
 	private void updateTape() {
-		//TODO List<Character> tape = simulator.getTape().getName();
-		ArrayList<Character> tape = new ArrayList<Character>() ;
-		tape.add('0');
-		tape.add('1');
-		tape.add('0');
-		tape.add('1');
-		tape.add('0');
-		tape.add('1');
-		tape.add('1');
-		//TODO  int head = simulator.getHead();
-		int head = 5;
-		// TODO char blankChar = simulator.getBlankChar();
-		char blank = ' ';
+		List<Character> tape =Turing.tape;
+		int head = Turing.head;
+		char blank = Turing.blank;
 		for(int i=0; i<GUI.TAPE_ELEMENT_NUMBER; i++) {
 			try {
 				Character currentTapeValue = tape.get(i+head-GUI.TAPE_ELEMENT_NUMBER/2);
