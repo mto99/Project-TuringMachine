@@ -3,7 +3,6 @@ package simulation;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.json.simple.JSONObject;
 
 public class Turing {
 	

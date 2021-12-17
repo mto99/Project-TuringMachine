@@ -32,24 +32,11 @@ public class TuringMachineSimulator {
 
 	public void run() {
 		
-		printTape();
-//		while (!Turing.finished) {
-//			step();
-//		}
-		
-		step();
-		step();
-		step();
-		step();
-		step();
-		step();
-		step();
-		step();
-		reset();
-		//step();
-		//step();
-		//stepback();
-		//stepback();
+		//printTape();
+		while (!Turing.finished) {
+			step();
+		}
+
 
 	}
 	
@@ -58,7 +45,7 @@ public class TuringMachineSimulator {
 		
 		try {
 			
-			//save();
+			save();
 			
 			for(State state: Turing.acceptingStates)
 			{
@@ -66,7 +53,7 @@ public class TuringMachineSimulator {
 				{
 					Turing.finished = true;
 					
-					System.out.println("END");
+					System.out.println("---END---");
 					return;
 				}
 			}
@@ -129,19 +116,19 @@ public class TuringMachineSimulator {
 		
 		try {
 			ArrayList<String[]> saving = Turing.history.getLast();
-		Turing.tape = new LinkedList<Character>();
-		for (var strings : saving.get(0)) {
-			Turing.tape.add(strings.charAt(0));
-		}
-		
-		Turing.head = Integer.parseInt(saving.get(1)[0]);
-		
-		Turing.currentState = new State(saving.get(2)[0]); 
-		
-		//delete last entry from history
-		Turing.history.removeLast();
-		
-		printTape();
+			Turing.tape = new LinkedList<Character>();
+			for (var strings : saving.get(0)) {
+				Turing.tape.add(strings.charAt(0));
+			}
+			
+			Turing.head = Integer.parseInt(saving.get(1)[0]);
+			
+			Turing.currentState = new State(saving.get(2)[0]); 
+			
+			//delete last entry from history
+			Turing.history.removeLast();
+			
+			printTape();
 		
 		} catch (Exception e) {
 			e.getMessage();
@@ -220,6 +207,8 @@ public class TuringMachineSimulator {
 		Turing.transitionFunction = parser.getTransitionFunction();
 		
 		printTape();
+		
+		System.out.println("---Reset---");
 	}
 	
 	
