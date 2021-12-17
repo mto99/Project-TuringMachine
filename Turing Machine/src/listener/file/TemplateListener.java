@@ -1,4 +1,4 @@
-package listener;
+package listener.file;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -10,11 +10,11 @@ import org.eclipse.swt.events.SelectionEvent;
 public class TemplateListener extends SelectionAdapter {
 
 	private static final String TRANSITION_FUNCTION_TEMPLATE="{\r\n"
-															+ "	\"previousState\" : \"statename\",\r\n"
-															+ "	\"readSymbol\" : \"char\", \r\n"
-															+ "	\"newState\" : \"statename\",\r\n"
-															+ "	\"writtenSymbol\" : \"char\",\r\n"
-															+ "	\"movement\" : \"L | R | N\"\r\n"
+															+ "	\"previousState\" : \"\",\r\n"
+															+ "	\"readSymbol\" : \"\",\r\n"
+															+ "	\"newState\" : \"\",\r\n"
+															+ "	\"writtenSymbol\" : \"\",\r\n"
+															+ "	\"movement\" : \"\"\r\n"
 															+ "}";
 	
 	@Override

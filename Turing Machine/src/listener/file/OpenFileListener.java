@@ -1,4 +1,4 @@
-package listener;
+package listener.file;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;

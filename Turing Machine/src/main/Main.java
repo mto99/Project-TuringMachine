@@ -10,9 +10,9 @@ public class Main {
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
 		
 		//Start GUI
-		/*GUI app = new GUI();
+		GUI app = new GUI();
 		app.openGUI();
-		app.closeGUI();*/
+		app.closeGUI();
 		
 		TuringMachineSimulator t = new TuringMachineSimulator();
 		t.run();
