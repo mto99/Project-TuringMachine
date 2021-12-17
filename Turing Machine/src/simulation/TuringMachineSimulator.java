@@ -21,14 +21,15 @@ public class TuringMachineSimulator {
 	}
 	
 
-	public void reload(String text) {
+	public String reload(String text) {
 		
 		try {
-			String statuscode = parser.parseAndValidate(text);
+			return parser.parseAndValidate(text);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	public void run() {
