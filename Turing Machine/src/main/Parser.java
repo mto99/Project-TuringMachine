@@ -26,7 +26,7 @@ public class Parser {
 
 
 	public String parseAndValidate(String text) throws JsonMappingException, JsonProcessingException {
-	
+	// TODO Check if blank symbol is in alphabet if it does throw error 
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
