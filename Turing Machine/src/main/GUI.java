@@ -155,25 +155,25 @@ public class GUI {
 	}
 	
 	private void createFileMenu(Menu parent) {
-		Menu fileDropDown = createMenuDropDown(parent, "&Datei");
+		Menu fileDropDown = createMenuDropDown(parent, "&File");
 
 		newFile = new MenuItem(fileDropDown, SWT.PUSH);
-		newFile.setText("&Neu");
+		newFile.setText("&New");
 
 		openFile = new MenuItem(fileDropDown, SWT.PUSH);
-		openFile.setText("&Öffnen");
+		openFile.setText("&Open");
 
-		Menu examples = createMenuDropDown(fileDropDown, "&Beispiele");
+		Menu examples = createMenuDropDown(fileDropDown, "&Examples");
 		createExampleDropDown(examples);
 
 		saveFile = new MenuItem(fileDropDown, SWT.PUSH);
-		saveFile.setText("&Speichern");
+		saveFile.setText("&Save");
 	}
 
 	private void createTemplateMenu(Menu parent) {
 		Menu templateDropDown = createMenuDropDown(parent, "&Templates");
 		copyTransitionFunctionTemplate = new MenuItem(templateDropDown, SWT.PUSH);
-		copyTransitionFunctionTemplate.setText("&Übergangsfunktion");
+		copyTransitionFunctionTemplate.setText("&Transition Function");
 	}
 
 	private void createExampleDropDown(Menu parent) {
