@@ -38,6 +38,10 @@ import simulation.TuringMachineSimulator;
 public class GUI {
 
 	public static final int TAPE_ELEMENT_NUMBER = 13;
+	
+	private static final String[] examplesFilenames = {"template", "newNewReplaceChars"};
+	private static final String[] examplesTexts = {"&Template", "&Replace Chars"};
+	
 	private static Display display;
 
 	private Shell shell;
@@ -46,8 +50,7 @@ public class GUI {
 	private MenuItem saveFile;
 	private MenuItem openFile;
 
-	private MenuItem example1;
-	private MenuItem example2;
+	private MenuItem exampleMenuItems[];
 
 	private Label infoLog;
 
@@ -137,8 +140,12 @@ public class GUI {
 	}
 
 	private void setExampleListeners() {
-		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
-		example2.addSelectionListener(new ExampleFileListener("/examples/newNewReplaceChars.json", this.editor));
+		if(examplesFilenames.length!=examplesTexts.length) {
+			return;
+		}
+		for(int i = 0; i<examplesFilenames.length; i++) {
+			exampleMenuItems[i].addSelectionListener(new ExampleFileListener("/examples/"+examplesFilenames[i]+".json", this.editor));
+		}
 	}
 
 	private void setTemplateListeners() {
@@ -177,10 +184,14 @@ public class GUI {
 	}
 
 	private void createExampleDropDown(Menu parent) {
-		example1 = new MenuItem(parent, SWT.CASCADE);
-		example1.setText("&Template");
-		example2 = new MenuItem(parent, SWT.CASCADE);
-		example2.setText("&Replace Chars");
+		if(examplesFilenames.length!=examplesTexts.length) {
+			return;
+		}
+		exampleMenuItems = new MenuItem[examplesTexts.length];
+		for(int i = 0; i< examplesTexts.length; i++) {
+			exampleMenuItems[i] = new MenuItem(parent, SWT.CASCADE);
+			exampleMenuItems[i].setText(examplesTexts[i]);
+		}
 	}
 
 	private Menu createMenuDropDown(Menu parent, String text) {
