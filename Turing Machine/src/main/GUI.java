@@ -38,9 +38,9 @@ import simulation.TuringMachineSimulator;
 public class GUI {
 
 	public static final int TAPE_ELEMENT_NUMBER = 13;
-	
-	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "duplicateBinaryString", "sameNumberOfSymbols"};
-	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Duplicate Binary String", "&Check if same num of 1s and 0s"};
+
+	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "createBinaryPalindrome", "sameNumberOfSymbols"};
+	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Create Binary Palindrome", "&Check if same num of 1s and 0s"};
 	
 	private static Display display;
 
