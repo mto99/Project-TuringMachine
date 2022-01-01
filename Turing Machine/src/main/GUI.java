@@ -39,8 +39,8 @@ public class GUI {
 
 	public static final int TAPE_ELEMENT_NUMBER = 13;
 	
-	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "duplicateBinaryString"};
-	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Duplicate Binary String"};
+	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "duplicateBinaryString", "sameNumberOfSymbols"};
+	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Duplicate Binary String", "&Check if same num of 1s and 0s"};
 	
 	private static Display display;
 

@@ -1,0 +1,125 @@
+{
+	"alphabet": "10X",
+	"startState" : "searchNextNumber",
+	"startPosition": "first",
+	"allStates":["accept","reject","searchNextNumber", "moveLeft", "search1", "search0"],
+	"rejectStates":["reject"],
+	"acceptStates": ["accept"],
+	"transitionFunction" : [
+		{
+			"previousState" : "searchNextNumber",
+			"readSymbol" : "0",
+			"newState" : "search1",
+			"writtenSymbol" : "X",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "search1",
+			"readSymbol" : "1",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "X",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "search1",
+			"readSymbol" : "0",
+			"newState" : "search1",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "search1",
+			"readSymbol" : " ",
+			"newState" : "reject",
+			"writtenSymbol" : " ",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "search1",
+			"readSymbol" : "X",
+			"newState" : "search1",
+			"writtenSymbol" : "X",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "search0",
+			"readSymbol" : "0",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "X",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "search0",
+			"readSymbol" : "1",
+			"newState" : "search0",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "search0",
+			"readSymbol" : " ",
+			"newState" : "reject",
+			"writtenSymbol" : " ",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "search0",
+			"readSymbol" : "X",
+			"newState" : "search0",
+			"writtenSymbol" : "X",
+			"movement" : ">"
+		},
+		{
+			"previousState" : "searchNextNumber",
+			"readSymbol" : "1",
+			"newState" : "search0",
+			"writtenSymbol" : "X",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "searchNextNumber",
+			"readSymbol" : " ",
+			"newState" : "accept",
+			"writtenSymbol" : " ",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "searchNextNumber",
+			"readSymbol" : "X",
+			"newState" : "searchNextNumber",
+			"writtenSymbol" : "X",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "0",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "0",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "1",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "1",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "X",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "X",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : " ",
+			"newState" : "searchNextNumber",
+			"writtenSymbol" : " ",
+			"movement" : "R"
+		}
+
+	],
+	
+	"tape" : "011001"
+}
