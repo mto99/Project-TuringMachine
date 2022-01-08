@@ -1,0 +1,36 @@
+{
+	"alphabet": "01",
+	"tape": "1001",
+	"startState": "carry",
+	"startPosition": "last",
+	"allStates": ["carry", "end"],
+	"rejectStates": [" "],
+	"acceptStates": ["end"],
+	
+	"transitionFunction": [
+	
+		{
+			"previousState": "carry",
+			"readSymbol": "0",
+			"newState": "end",
+			"writtenSymbol": "1",
+			"movement":"N"
+		},
+		{
+			"previousState": "carry",
+			"readSymbol": "1",
+			"newState": "carry",
+			"writtenSymbol": "0",
+			"movement":"L"
+		},
+		{
+			"previousState": "carry",
+			"readSymbol": " ",
+			"newState": "end",
+			"writtenSymbol": " ",
+			"movement":"N"
+		}
+		
+	
+	]
+}

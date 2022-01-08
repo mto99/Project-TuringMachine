@@ -48,6 +48,7 @@ public class GUI {
 
 	private MenuItem example1;
 	private MenuItem example2;
+	private MenuItem example3;
 
 	private Label infoLog;
 
@@ -139,6 +140,7 @@ public class GUI {
 	private void setExampleListeners() {
 		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
 		example2.addSelectionListener(new ExampleFileListener("/examples/newNewReplaceChars.json", this.editor));
+		example3.addSelectionListener(new ExampleFileListener("/examples/incrementBinary.json", this.editor));
 	}
 
 	private void setTemplateListeners() {
@@ -181,6 +183,8 @@ public class GUI {
 		example1.setText("&Template");
 		example2 = new MenuItem(parent, SWT.CASCADE);
 		example2.setText("&Replace Chars");
+		example3 = new MenuItem(parent, SWT.CASCADE);
+		example3.setText("&Increment Binary");
 	}
 
 	private Menu createMenuDropDown(Menu parent, String text) {
