@@ -29,78 +29,207 @@ public class Parser {
 	// TODO Check if blank symbol is in alphabet if it does throw error 
 		
 		ObjectMapper mapper = new ObjectMapper();
-		
-		JsonNode root = mapper.readTree(text);
-		
-		setAlphabet(root.get("alphabet").asText());
-		
-		
-		setAllStates(new ArrayList<State>());
-		ArrayNode an =  (ArrayNode) root.get("allStates");
-		Iterator<JsonNode> iterator = an.elements();
-		
+		ArrayNode an;
+		Iterator<JsonNode> iterator;
 		JsonNode node;
 		State state;
-		
-		while(iterator.hasNext())
+		String s_State = null;
+		JsonNode root = null;
+		String erg = "INVALID: ";
+
+
+		if(text.isBlank())
 		{
-			node = iterator.next();
-			state = new State(node.asText());
-			allStates.add(state);
+			return "EMPTY";
 		}
 		
-		
-		setStartState(new State(root.get("startState").asText()));
-		
-		setRejectStates(new ArrayList<State>());
-		an =  (ArrayNode) root.get("rejectStates");
-		iterator = an.elements();
-		
-		while(iterator.hasNext())
+		try 
 		{
-			node = iterator.next();
-			state = new State(node.asText());
-			rejectStates.add(state);
+			root = mapper.readTree(text);
 		}
-		
-		
-		setAcceptStates(new ArrayList<State>());
-		an =  (ArrayNode) root.get("acceptStates");
-		iterator = an.elements();
-		
-		while(iterator.hasNext())
-		{
-			node = iterator.next();
-			state = new State(node.asText());
-			acceptStates.add(state);
-		}
-		
-		setTransitionFunction(new ArrayList<TransitionFunction>());
-		
-		TransitionFunction tf;
-		an = (ArrayNode) root.get("transitionFunction");
-		iterator = an.elements();
-		
-		
-		while(iterator.hasNext())
-		{
-			node = iterator.next();
+		catch (Exception e) {
 			
-			tf = new TransitionFunction(new State(node.get("previousState").asText()),  
-										node.get("readSymbol").asText().charAt(0),
-										new State(node.get("newState").asText()),
-										node.get("writtenSymbol").asText().charAt(0),
-										node.get("movement").asText().charAt(0));
-			
-			this.transitionFunction.add(tf);
-			
+			return "INVALID JSON";
 		}
 		
-		setTape(root.get("tape").asText());
 		
-		setStartPosition(root.get("startPosition").asText());
+		try
+		{
+			if(root.get("alphabet").asText().equals(" "))
+			{
+				return "BLANK: ALPHABET";
+			}
+			
+			setAlphabet(root.get("alphabet").asText());	
+		}
+		catch(Exception e) {
+			
+			System.out.println("TEMPLATE: alphabet");
+			return "TEMPLATE: alphabet";
+		}
 		
-		return null;
+		
+		try {
+			
+			setTape(root.get("tape").asText());
+		}
+		catch (Exception e) {
+			
+			System.out.println("Template Error: tape");
+		}
+		
+		
+		try
+		{
+			setAllStates(new ArrayList<State>());
+			an =  (ArrayNode) root.get("allStates");
+			
+			iterator = an.elements();
+			
+			while(iterator.hasNext())
+			{
+				node = iterator.next();
+				state = new State(node.asText());
+				if(!(state.toString().equals(" ") || state.toString().equals("")))
+				{
+					allStates.add(state);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Template Error: allStates");
+		}
+		
+		
+		try {
+			s_State = root.get("startState").asText();
+			
+			for(State s: getAllStates() )
+			{
+				/*System.out.println(s);
+				System.out.println(getStartState());*/
+				
+				if(s.toString().equals(s_State))
+				{
+					System.out.println("VALID StartState");
+					setStartState(new State(s_State));
+					break;
+				}
+				else
+				{
+					erg = "INVALID StartState";
+					return erg;
+				}
+			}
+		}
+		catch(Exception e )
+		{
+			System.out.println("Template Error: startState");
+		}
+		
+		
+		try {
+			setStartPosition(root.get("startPosition").asText());
+		}
+		catch (Exception e) 
+		{
+			System.out.println("Template Error: startPosition");
+		}
+
+		
+		try {
+			setRejectStates(new ArrayList<State>());
+			
+			an =  (ArrayNode) root.get("rejectStates");
+			iterator = an.elements();
+			
+			while(iterator.hasNext())
+			{
+				node = iterator.next();
+				state = new State(node.asText());
+				
+				
+				for(State s: getAllStates() )
+				{
+										
+					if(s.toString().equals(state.toString()))
+					{
+						System.out.println("VALID RejectState");
+						rejectStates.add(state);
+						
+					}
+				}
+			}
+			erg = "INVALID RejectState";
+		}
+		
+		catch (Exception e) {
+			System.out.println("Template Error: rejectStates");
+		}
+		
+		
+		try {
+			
+			setAcceptStates(new ArrayList<State>());
+			an =  (ArrayNode) root.get("acceptStates");
+			iterator = an.elements();
+			
+			while(iterator.hasNext())
+			{
+				node = iterator.next();
+				state = new State(node.asText());
+				
+					if(getAllStates().contains(state))
+					{
+						System.out.println("VALID AcceptState");
+						acceptStates.add(state);
+					}
+										
+					/*if(s.toString().equals(state.toString()))
+					{
+						System.out.println("VALID AcceptState");
+						acceptStates.add(state);
+					}
+					else
+					{
+						erg = "INVALID AcceptState";
+						return erg;
+					}*/
+				}
+		}
+		catch (Exception e) {
+			System.out.println("Template Error: acceptStates");
+		}
+		
+		try {
+			setTransitionFunction(new ArrayList<TransitionFunction>());
+			
+			TransitionFunction tf;
+			an = (ArrayNode) root.get("transitionFunction");
+			iterator = an.elements();
+			
+			
+			while(iterator.hasNext())
+			{
+				node = iterator.next();
+				
+				tf = new TransitionFunction(new State(node.get("previousState").asText()),  
+											node.get("readSymbol").asText().charAt(0),
+											new State(node.get("newState").asText()),
+											node.get("writtenSymbol").asText().charAt(0),
+											node.get("movement").asText().charAt(0));
+				
+				this.transitionFunction.add(tf);
+					
+			}
+		}
+		catch (Exception e) {
+			System.out.println("Template Error: transitionFunction");
+		}
+				
+		
+		return erg;
 	}
 	
 	@Override
