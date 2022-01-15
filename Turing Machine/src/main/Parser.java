@@ -33,9 +33,11 @@ public class Parser {
 		Iterator<JsonNode> iterator;
 		JsonNode node;
 		State state;
-		String s_State = null;
+		
 		JsonNode root = null;
-		String erg = "INVALID: ";
+		String s_State = "";
+		String tmp = "";
+		String erg = "";
 
 
 		if(text.isBlank())
@@ -55,27 +57,48 @@ public class Parser {
 		
 		try
 		{
-			if(root.get("alphabet").asText().equals(" "))
+			if(root.get("alphabet").asText().contains(" "))
 			{
-				return "BLANK: ALPHABET";
+				erg += " BLANK Alphabet";
+				System.out.println("BLANK Alphabet");
+			}
+			else
+			{
+				setAlphabet(root.get("alphabet").asText());	
 			}
 			
-			setAlphabet(root.get("alphabet").asText());	
+			
 		}
 		catch(Exception e) {
 			
-			System.out.println("TEMPLATE: alphabet");
-			return "TEMPLATE: alphabet";
+			System.out.println("TEMPLATE alphabet");
+			erg += ", TEMPLATE alphabet";
 		}
 		
 		
 		try {
+			System.out.println(getAlphabet().toString());
+			System.out.println(root.get("tape").asText());
+			if(!root.get("tape").asText().equals(""))
+			{
+				if(root.get("tape").asText().matches("[" + getAlphabet()+"]*"))
+				{
+					
+					System.out.println(root.get("tape").asText());
+					System.out.println("matches");
+					setTape(root.get("tape").asText());
+				}
+				else
+				{
+					erg += "BLANK tape";
+					System.out.println("BLANK tape");
+				}
+			}
 			
-			setTape(root.get("tape").asText());
 		}
 		catch (Exception e) {
 			
-			System.out.println("Template Error: tape");
+			System.out.println("TemplateError tape");
 		}
 		
 		
@@ -98,12 +121,13 @@ public class Parser {
 		}
 		catch(Exception e)
 		{
-			System.out.println("Template Error: allStates");
+			System.out.println("TemplateError allStates");
 		}
 		
 		
 		try {
 			s_State = root.get("startState").asText();
+		
 			
 			for(State s: getAllStates() )
 			{
@@ -114,18 +138,21 @@ public class Parser {
 				{
 					System.out.println("VALID StartState");
 					setStartState(new State(s_State));
+					tmp = "";
 					break;
 				}
 				else
 				{
-					erg = "INVALID StartState";
-					return erg;
+					tmp = ", INVALID StartState";
 				}
+	
 			}
+			erg += tmp;
+			
 		}
 		catch(Exception e )
 		{
-			System.out.println("Template Error: startState");
+			System.out.println("TemplateError startState");
 		}
 		
 		
@@ -134,13 +161,14 @@ public class Parser {
 		}
 		catch (Exception e) 
 		{
-			System.out.println("Template Error: startPosition");
+			System.out.println("TemplateError startPosition");
 		}
 
 		
 		try {
 			setRejectStates(new ArrayList<State>());
 			
+		
 			an =  (ArrayNode) root.get("rejectStates");
 			iterator = an.elements();
 			
@@ -149,29 +177,37 @@ public class Parser {
 				node = iterator.next();
 				state = new State(node.asText());
 				
+			
 				
 				for(State s: getAllStates() )
 				{
 										
 					if(s.toString().equals(state.toString()))
 					{
+					
 						System.out.println("VALID RejectState");
 						rejectStates.add(state);
+						tmp="";
+						break;
 						
+					}
+					else
+					{
+						tmp = ", INVALID RejectState";
 					}
 				}
 			}
-			erg = "INVALID RejectState";
+			erg += tmp;
 		}
 		
 		catch (Exception e) {
-			System.out.println("Template Error: rejectStates");
+			System.out.println("TemplateError rejectStates");
 		}
 		
 		
 		try {
-			
 			setAcceptStates(new ArrayList<State>());
+			
 			an =  (ArrayNode) root.get("acceptStates");
 			iterator = an.elements();
 			
@@ -180,26 +216,40 @@ public class Parser {
 				node = iterator.next();
 				state = new State(node.asText());
 				
-					if(getAllStates().contains(state))
+					for(State s: getAllStates() )
 					{
-						System.out.println("VALID AcceptState");
-						acceptStates.add(state);
+											
+						if(s.toString().equals(state.toString()))
+						{
+							for(State i: getRejectStates())
+							{
+								if(!(state.toString().equals(i.toString())))
+								{
+									System.out.println("VALID AcceptState");
+									acceptStates.add(state);
+									tmp="";
+									//break;
+								}
+								else
+								{
+									tmp = ", INVALID AcceptState=RejectState";
+									break;
+								}
+							}
+								
+							
+							
+						}
+						else
+						{
+							tmp = ", INVALID AcceptState";
+						}
 					}
-										
-					/*if(s.toString().equals(state.toString()))
-					{
-						System.out.println("VALID AcceptState");
-						acceptStates.add(state);
-					}
-					else
-					{
-						erg = "INVALID AcceptState";
-						return erg;
-					}*/
 				}
+			erg += tmp;
 		}
 		catch (Exception e) {
-			System.out.println("Template Error: acceptStates");
+			System.out.println("TemplateError acceptStates");
 		}
 		
 		try {
@@ -225,10 +275,10 @@ public class Parser {
 			}
 		}
 		catch (Exception e) {
-			System.out.println("Template Error: transitionFunction");
+			System.out.println("TemplateError transitionFunction");
 		}
 				
-		
+		System.out.println(erg);
 		return erg;
 	}
 	
