@@ -1,0 +1,66 @@
+{
+	"alphabet": "abx",
+	"startState" : "firstB",
+	"startPosition": "first",
+	"allStates":["accept","reject","firstB", "secB", "moreB"],
+	"rejectStates":["reject"],
+	"acceptStates": ["accept"],
+	"transitionFunction" : [
+		{
+			"previousState" : "firstB",
+			"readSymbol" : "a",
+			"newState" : "firstB",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "firstB",
+			"readSymbol" : " ",
+			"newState" : "reject",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "firstB",
+			"readSymbol" : "b",
+			"newState" : "secB",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "secB",
+			"readSymbol" : "a",
+			"newState" : "secB",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "secB",
+			"readSymbol" : " ",
+			"newState" : "reject",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "secB",
+			"readSymbol" : "b",
+			"newState" : "moreB",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "moreB",
+			"readSymbol" : "a",
+			"newState" : "moreB",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "moreB",
+			"readSymbol" : "b",
+			"newState" : "reject",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		},{
+			"previousState" : "moreB",
+			"readSymbol" : " ",
+			"newState" : "accept",
+			"writtenSymbol" : "x",
+			"movement" : "R"
+		}
+	],
+	"tape" : "abba"
+}
