@@ -39,8 +39,8 @@ public class GUI {
 
 	public static final int TAPE_ELEMENT_NUMBER = 13;
 
-	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "createBinaryPalindrome", "sameNumberOfSymbols"};
-	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Create Binary Palindrome", "&Check if same num of 1s and 0s"};
+	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "createBinaryPalindrome", "sameNumberOfSymbols", "incrementBinary"};
+	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Create Binary Palindrome", "&Check if same num of 1s and 0s", "&Increment Binary"};
 	
 	private static Display display;
 
@@ -50,9 +50,6 @@ public class GUI {
 	private MenuItem saveFile;
 	private MenuItem openFile;
 	
-	private MenuItem example1;
-	private MenuItem example2;
-	private MenuItem example3;
 	private MenuItem exampleMenuItems[];
 
 	private Label infoLog;
@@ -144,10 +141,6 @@ public class GUI {
 
 	private void setExampleListeners() {
 
-		example1.addSelectionListener(new ExampleFileListener("/examples/template.json", this.editor));
-		example2.addSelectionListener(new ExampleFileListener("/examples/newNewReplaceChars.json", this.editor));
-		example3.addSelectionListener(new ExampleFileListener("/examples/incrementBinary.json", this.editor));
-
 		if(examplesFilenames.length!=examplesTexts.length) {
 			return;
 		}
@@ -192,12 +185,6 @@ public class GUI {
 	}
 
 	private void createExampleDropDown(Menu parent) {
-		example1 = new MenuItem(parent, SWT.CASCADE);
-		example1.setText("&Template");
-		example2 = new MenuItem(parent, SWT.CASCADE);
-		example2.setText("&Replace Chars");
-		example3 = new MenuItem(parent, SWT.CASCADE);
-		example3.setText("&Increment Binary");
 		if(examplesFilenames.length!=examplesTexts.length) {
 			return;
 		}
