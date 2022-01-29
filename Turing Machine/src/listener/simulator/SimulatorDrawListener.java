@@ -21,6 +21,9 @@ public class SimulatorDrawListener extends SimulatorListener {
 	}
 	
 	protected void updateGUI() {
+		if(Turing.currentState==null) {
+			return;
+		}
 		currentState.setText(Turing.currentState.getName());
 		updateTape();
 	}

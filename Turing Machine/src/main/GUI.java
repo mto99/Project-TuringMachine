@@ -39,8 +39,8 @@ public class GUI {
 
 	public static final int TAPE_ELEMENT_NUMBER = 13;
 
-	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "createBinaryPalindrome", "sameNumberOfSymbols", "incrementBinary"};
-	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Create Binary Palindrome", "&Check if same num of 1s and 0s", "&Increment Binary"};
+	private static final String[] examplesFilenames = {"template", "newNewReplaceChars", "createBinaryPalindrome", "sameNumberOfSymbols", "incrementBinary", "wordHas2Bs", "Circle-Free-BinaryToggle"};
+	private static final String[] examplesTexts = {"&Template", "&Replace Chars", "&Create Binary Palindrome", "&Check if same num of 1s and 0s", "&Increment Binary", "&check if Word has 2 B's", "&Circle Free Binary Toggle"};
 	
 	private static Display display;
 

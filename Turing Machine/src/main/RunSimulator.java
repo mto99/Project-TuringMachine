@@ -39,10 +39,12 @@ public class RunSimulator implements Runnable {
 
 	public void start() {
 		this.running = true;
-		display.timerExec(2000, this);
+		display.timerExec(750, this);
 	}
 
 	public void updateGUI() {
+		if(Turing.currentState==null)
+			return;
 		currentState.setText(Turing.currentState.getName());
 		updateTape();
 	}
