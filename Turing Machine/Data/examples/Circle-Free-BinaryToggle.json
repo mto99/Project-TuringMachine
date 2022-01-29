@@ -1,0 +1,39 @@
+{
+	"alphabet": "01",
+	"allStates" : [
+		"zero", "one"
+	],
+	"startState" : "zero",
+	"startPosition" : "first",
+	"acceptStates" : [""],
+	"rejectStates" : [""],
+	"transitionFunction" : [
+		{
+			"previousState" : "zero",
+			"readSymbol" : "1",
+			"newState" : "one",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},{
+			"previousState" : "zero",
+			"readSymbol" : "0",
+			"newState" : "one",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		},{
+			"previousState" : "one",
+			"readSymbol" : "0",
+			"newState" : "zero",
+			"writtenSymbol" : "1",
+			"movement" : "L"
+		},{
+			"previousState" : "one",
+			"readSymbol" : "1",
+			"newState" : "zero",
+			"writtenSymbol" : "0",
+			"movement" : "L"
+		}
+	],
+	
+	"tape" : "00"
+}
