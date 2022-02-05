@@ -28,15 +28,9 @@ public class TuringMachineSimulator {
 		{
 			erg = parser.parseAndValidate(text);
 			
-			if(erg == null)
-			{
-				return erg;
-			}
-			else
-			{
-				System.out.println(erg);
-				return erg;
-			}
+			System.out.println(erg);
+			return erg;
+			
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -45,7 +39,7 @@ public class TuringMachineSimulator {
 			e.printStackTrace();
 			//e.printStackTrace();
 		}
-		return null;
+		return("");
 	}
 	
 	public void run() {
