@@ -23,13 +23,23 @@ public class TuringMachineSimulator {
 
 	public String reload(String text) {
 		
-		try {
-			return parser.parseAndValidate(text);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String erg = "";
+		try
+		{
+			erg = parser.parseAndValidate(text);
+			
+			System.out.println(erg);
+			return erg;
+			
 		}
-		return null;
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.print(e.getStackTrace()[1]);
+			System.out.println("-------------------------------------");
+			e.printStackTrace();
+			//e.printStackTrace();
+		}
+		return("");
 	}
 	
 	public void run() {
