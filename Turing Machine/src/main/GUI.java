@@ -231,7 +231,6 @@ public class GUI {
 	private void createInfoLog(Group parent) {
 		infoLog = new Label(parent, SWT.FILL);
 		infoLog.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		infoLog.setText("Test");
 	}
 
 	private void createEditingTextField(Shell parent) {
