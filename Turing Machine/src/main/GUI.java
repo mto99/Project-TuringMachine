@@ -159,7 +159,7 @@ public class GUI {
 		step.addSelectionListener(new StepListener(simulator, tape, currentStateName));
 		stepBack.addSelectionListener(new StepbackListener(simulator, tape, currentStateName));
 		reset.addSelectionListener(new ResetListener(simulator, tape, currentStateName));
-		reload.addSelectionListener(new ReloadListener(simulator, tape, currentStateName, editor));
+		reload.addSelectionListener(new ReloadListener(simulator, tape, currentStateName, editor, infoLog, reset, step, play, pause, stepBack));
 	}
 	
 	private void createFileMenu(Menu parent) {
@@ -230,7 +230,8 @@ public class GUI {
 
 	private void createInfoLog(Group parent) {
 		infoLog = new Label(parent, SWT.FILL);
-		infoLog.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
+		infoLog.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		infoLog.setText("Test");
 	}
 
 	private void createEditingTextField(Shell parent) {
@@ -292,6 +293,12 @@ public class GUI {
 		reload = new Button(functionButtonGroup, SWT.PUSH);
 		reload.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		reload.setText("Reload");
+		
+		reset.setEnabled(false);
+		play.setEnabled(false);
+		step.setEnabled(false);
+		pause.setEnabled(false);
+		stepBack.setEnabled(false);
 	}
 
 	private void createTapeElement(Composite parent) {
