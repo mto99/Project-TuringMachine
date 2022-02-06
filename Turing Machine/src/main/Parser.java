@@ -98,10 +98,10 @@ public class Parser {
 						if(!s.equals("transitionFunction"))
 						{
 							state = new State(node.asText());
-							if(state.toString().equals("") || state.toString().equals(" "))
+							if(state.toString().equals(""))// || state.toString().equals(" "))
 							{
 								//cancel  = "1";
-								System.out.println(s + " BLANK OR NO VALUE");
+								System.out.println(s + " BLANK OR NO VALUE ");
 								System.out.println(root.get(s));
 							}
 						}
@@ -111,7 +111,7 @@ public class Parser {
 							{
 								if(!node.has(sT))
 								{
-									System.out.println(sT + " MISSING OR WRONG SYNTAX");
+									System.out.println(sT + " MISSING OR WRONG SYNTAX ");
 									//cancel  = "1";
 								}
 								else
@@ -121,7 +121,7 @@ public class Parser {
 									if(state.toString().equals(""))
 									{
 										//cancel  = "1";
-										System.out.println(sT + " BLANK OR NO VALUE");
+										System.out.println(sT + " BLANK OR NO VALUE ");
 										//System.out.println(root.get(s));
 									}
 								}
@@ -143,7 +143,7 @@ public class Parser {
 			//ALPHABET
 			if(root.get("alphabet").asText().contains(" "))
 			{
-				erg += " BLANK Alphabet";
+				erg += " BLANK Alphabet ";
 				System.out.println("BLANK Alphabet");
 			}
 			else
@@ -164,7 +164,7 @@ public class Parser {
 				}
 				else
 				{
-					erg += "BLANK tape";
+					erg += "BLANK tape ";
 					System.out.println("BLANK tape");
 				}
 			}
@@ -205,7 +205,7 @@ public class Parser {
 				}
 				else
 				{
-					tmp = ", INVALID StartState";
+					tmp = " INVALID StartState ";
 				}
 	
 			}
@@ -231,7 +231,8 @@ public class Parser {
 				for(State s: getAllStates() )
 				{
 										
-					if(s.toString().equals(state.toString()))
+					//if(s.toString().equals(state.toString()))
+					if(!s.toString().equals(""))
 					{
 					
 						//System.out.println("VALID RejectState");
@@ -242,7 +243,7 @@ public class Parser {
 					}
 					else
 					{
-						tmp = ", INVALID RejectState";
+						tmp = " INVALID RejectState ";
 					}
 				}
 			}
@@ -275,11 +276,11 @@ public class Parser {
 									//System.out.println("VALID AcceptState");
 									acceptStates.add(state);
 									tmp="";
-									//break;
+									
 								}
 								else
 								{
-									tmp = ", INVALID AcceptState=RejectState";
+									tmp = " INVALID AcceptState=RejectState ";
 									break;
 								}
 							}
@@ -287,7 +288,7 @@ public class Parser {
 						}
 						else
 						{
-							tmp = ", INVALID AcceptState";
+							tmp = " INVALID AcceptState";
 						}
 					}
 				}
