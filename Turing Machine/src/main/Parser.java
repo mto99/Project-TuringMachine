@@ -51,11 +51,13 @@ public class Parser {
 			return "EMPTY";
 		}
 		
+		jsonKeys = "alphabet,tape,startState,startPosition".split(",");
+		jsonKeysArray = "allStates,rejectStates,acceptStates,transitionFunction".split(",");
+		jsonKeysTransFunc = "previousState,readSymbol,newState,writtenSymbol,movement".split(",");
+		
 		try 
 		{
 			root = mapper.readTree(text);
-			
-			jsonKeys = "alphabet,tape,startState,startPosition".split(",");
 			
 			for(String s: jsonKeys )
 			{
@@ -63,29 +65,37 @@ public class Parser {
 				if(!root.has(s))
 				{
 					//cancel = "1";
-					System.out.println(s + " MISSING OR WRONG SYNTAX");
+					System.out.println(s + ": MISSING OR WRONG SYNTAX\n");
+					erg += s +": MISSING OR WRONG SYNTAX\n";
+				}
+				else
+				{
+					node = root.get(s);
+					if(root.get(s).asText().equals("") || root.get(s).asText().equals(" "))
+					{	
+						//cancel  = "1";
+						System.out.println(s + ": BLANK OR NO VALUE\n");
+						erg += s + ": BLANK OR NO VALUE\n";
+						//System.out.println(root.get(s));
+					}
 				}
 				
-				node = root.get(s);
 				
 				
-				if(root.get(s).asText().equals("") || root.get(s).asText().equals(" "))
-				{	
-					//cancel  = "1";
-					System.out.println(s + " BLANK OR NO VALUE");
-					//System.out.println(root.get(s));
-				}
+				
+				
 			}
+
+		
 			
-			jsonKeysArray = "allStates,rejectStates,acceptStates,transitionFunction".split(",");
-			jsonKeysTransFunc = "previousState,readSymbol,newState,writtenSymbol,movement".split(",");
 			
 			for(String s: jsonKeysArray)
 			{
 				
 				if(!root.has(s))
 				{
-					System.out.println(s + " MISSING OR WRONG SYNTAX");
+					System.out.println(s + ": MISSING OR WRONG SYNTAX\n");
+					erg += s + ": MISSING OR WRONG SYNTAX\n";
 					//cancel  = "1";
 				}
 				else
@@ -98,10 +108,11 @@ public class Parser {
 						if(!s.equals("transitionFunction"))
 						{
 							state = new State(node.asText());
-							if(state.toString().equals(""))// || state.toString().equals(" "))
+							if(state.toString().equals("") || state.toString().equals(" "))// || state.toString().equals(" "))
 							{
 								//cancel  = "1";
-								System.out.println(s + " BLANK OR NO VALUE ");
+								System.out.println(s + ": BLANK OR NO VALUE\n ");
+								erg += s + ": BLANK OR NO VALUE\n";
 								System.out.println(root.get(s));
 							}
 						}
@@ -111,7 +122,8 @@ public class Parser {
 							{
 								if(!node.has(sT))
 								{
-									System.out.println(sT + " MISSING OR WRONG SYNTAX ");
+									System.out.println(sT + ": MISSING OR WRONG SYNTAX\n");
+									erg += s + ": MISSING OR WRONG SYNTAX\n";
 									//cancel  = "1";
 								}
 								else
@@ -121,7 +133,8 @@ public class Parser {
 									if(state.toString().equals(""))
 									{
 										//cancel  = "1";
-										System.out.println(sT + " BLANK OR NO VALUE ");
+										System.out.println(sT + " BLANK OR NO VALUE\n ");
+										erg += sT + ": BLANK OR NO VALUE\n";
 										//System.out.println(root.get(s));
 									}
 								}
@@ -133,17 +146,20 @@ public class Parser {
 		}
 		catch (Exception e) {
 			
-			return "INVALID JSON SYNTAX";
+			
+			System.out.println(e.getClass().getName());
+			return "Syntax Template error\n";
 		}
 		
 		//if(cancel.equals("0"))
 		//{
 			
-		
+		if(erg.equals(""))
+		{
 			//ALPHABET
 			if(root.get("alphabet").asText().contains(" "))
 			{
-				erg += " BLANK Alphabet ";
+				erg += "BLANK Alphabet ";
 				System.out.println("BLANK Alphabet");
 			}
 			else
@@ -176,14 +192,26 @@ public class Parser {
 			
 			iterator = an.elements();
 			
-			while(iterator.hasNext())
+			if(iterator.hasNext())
 			{
-				node = iterator.next();
-				state = new State(node.asText());
-				if(!(state.toString().equals(" ") || state.toString().equals("")))
+				while(iterator.hasNext())
 				{
-					allStates.add(state);
+					node = iterator.next();
+					if(node.isNull())
+					{
+						System.out.println("node is null");
+					}
+					state = new State(node.asText());
+					if(!(state.toString().equals(" ") || state.toString().equals("")))
+					{
+						allStates.add(state);
+					}
 				}
+			}
+			else
+			{
+				System.out.println("allStates is empty\n");
+				erg += "allStates is empty\n";
 			}
 			
 			
@@ -205,7 +233,7 @@ public class Parser {
 				}
 				else
 				{
-					tmp = " INVALID StartState ";
+					tmp = "INVALID StartState ";
 				}
 	
 			}
@@ -220,32 +248,39 @@ public class Parser {
 			setRejectStates(new ArrayList<State>());
 			an =  (ArrayNode) root.get("rejectStates");
 			iterator = an.elements();
-			
-			while(iterator.hasNext())
+			if(iterator.hasNext())
 			{
-				node = iterator.next();
-				state = new State(node.asText());
-				
-			
-				
-				for(State s: getAllStates() )
+				while(iterator.hasNext())
 				{
-										
-					//if(s.toString().equals(state.toString()))
-					if(!s.toString().equals(""))
-					{
+					node = iterator.next();
+					state = new State(node.asText());
 					
-						//System.out.println("VALID RejectState");
-						rejectStates.add(state);
-						tmp="";
-						break;
-						
-					}
-					else
+				
+					
+					for(State s: getAllStates() )
 					{
-						tmp = " INVALID RejectState ";
+											
+						//if(s.toString().equals(state.toString()))
+						if(!s.toString().equals(""))
+						{
+						
+							//System.out.println("VALID RejectState");
+							rejectStates.add(state);
+							tmp="";
+							break;
+							
+						}
+						else
+						{
+							tmp = "INVALID RejectState ";
+						}
 					}
 				}
+			}
+			else
+			{
+				System.out.println("rejectStates is empty\n");
+				erg += "rejectStates is empty\n";
 			}
 			erg += tmp;
 			
@@ -256,42 +291,53 @@ public class Parser {
 			an =  (ArrayNode) root.get("acceptStates");
 			iterator = an.elements();
 			
-			while(iterator.hasNext())
+			if(iterator.hasNext())
 			{
-				node = iterator.next();
-				state = new State(node.asText());
-				
-					for(State s: getAllStates() )
-					{
-											
-						if(s.toString().equals(state.toString()) )
+				while(iterator.hasNext())
+				{
+					node = iterator.next();
+					state = new State(node.asText());
+					
+						for(State s: getAllStates() )
 						{
-							//System.out.println("VALID AcceptState");
-							acceptStates.add(state);
-							tmp="";
-							for(State i: getRejectStates())
+												
+							if(s.toString().equals(state.toString()) )
 							{
-								if(!(state.toString().equals(i.toString())))
-								{
-									//System.out.println("VALID AcceptState");
-									acceptStates.add(state);
-									tmp="";
-									
-								}
-								else
-								{
-									tmp = " INVALID AcceptState=RejectState ";
-									break;
-								}
+								//System.out.println("VALID AcceptState");
+								acceptStates.add(state);
+								tmp="";
+								break;
 							}
-							
+							else
+							{
+								tmp = "INVALID AcceptState: must be in allStates";
+							}
 						}
-						else
-						{
-							tmp = " INVALID AcceptState";
-						}
-					}
 				}
+			}
+			else
+			{
+				System.out.println("acceptStates is empty\n");
+				erg += "acceptStates is empty\n";
+			}
+			
+			
+			/*for(State i: getRejectStates())
+			{
+				if(!(state.toString().equals(i.toString())))
+				{
+					//System.out.println("VALID AcceptState");
+					acceptStates.add(state);
+					tmp="";
+					
+				}
+				else
+				{
+					tmp = " INVALID AcceptState=RejectState ";
+					break;
+				}
+			}*/
+			
 			erg += tmp;
 		
 			
@@ -316,7 +362,7 @@ public class Parser {
 				this.transitionFunction.add(tf);
 					
 			}
-		//}
+		}
 	
 		//System.out.println(toString());		
 		System.out.println(erg);

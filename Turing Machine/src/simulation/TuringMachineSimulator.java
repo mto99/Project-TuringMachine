@@ -28,7 +28,7 @@ public class TuringMachineSimulator {
 		{
 			erg = parser.parseAndValidate(text);
 			
-			System.out.println(erg);
+			//System.out.println(erg);
 			return erg;
 			
 		}
