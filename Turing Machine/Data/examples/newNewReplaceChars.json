@@ -1,12 +1,10 @@
 {
 	"alphabet": "AVLX",
-	"tape":"LXVX",
 	"startState":"replace",
 	"startPosition": "last",
 	"allStates":["replace","end"],
 	"rejectStates":[" "],
 	"acceptStates": ["end"],
-	
 	"transitionFunction":[
 		{
 			"previousState" : "replace",
@@ -44,5 +42,6 @@
 			"movement" : "N"
 		}
 		
-	]
+	],
+	"tape":"LXVX"
 }
