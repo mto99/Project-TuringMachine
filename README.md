@@ -5,28 +5,34 @@
 
 ```
 {
-	"tape": <chars in String,no spaces>,
-	"alphabet": <chars in String,no spaces>,
-	"startState":<statename>,
-	"startPosition": <startposition>,
-	"allStates": <All states in Array>,
-	"acceptStates": <states in Array>,
-	"rejectStates": <states in Array>,
-	
-	"transitionFunction":
-		<Array of Transition Functions>
-		
-		
+	"alphabet": "<chars in String,no spaces>",
+	"startState":"<statename>",
+	"startPosition": "<startposition>",
+	"allStates": "<All states in Array>",
+	"rejectStates": ["<states in Array>"],
+	"acceptStates": ["<states in Array>"],
+	"transitionFunction":[
+		{
+			<Array of Transition Functions>
+		}
+	]
 }
 
-TransitionFunction
-{
-	"previousState" : <statename>,
-	"readSymbol" : <char>, 
-	"newState" : <statename>,
-	"writtenSymbol" : <char>,
-	"movement" : <char:L|R|N>
-},
+```
+
+### Array of Transition Functions
+```
+	"transitionFunction":[
+	{
+		"previousState" : "<statename>",
+		"readSymbol" : "<char>", 
+		"newState" : "<statename>",
+		"writtenSymbol" : "<char>",
+		"movement" : "<char:L|R|N>"
+	}
+	],
+	"tape": "<chars in String,no spaces>"
+}
 
 ```
 
@@ -35,13 +41,11 @@ TransitionFunction
 ```
 {
 	"alphabet": "AVLX",
-	"tape":"LXVX",
 	"startState":"replace",
 	"startPosition": "last",
 	"allStates":["replace","end"],
 	"rejectStates":[" "],
 	"acceptStates": ["end"],
-	
 	"transitionFunction":[
 		{
 			"previousState" : "replace",
@@ -79,6 +83,7 @@ TransitionFunction
 			"movement" : "N"
 		}
 		
-	]
+	],
+	"tape":"LXVX",
 }
 ```
