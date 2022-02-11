@@ -1,0 +1,19 @@
+{
+	"alphabet": "",
+	"allStates" : [""],
+	"startState" : "",
+	"startPosition" : "",
+	"acceptStates" : [""],
+	"rejectStates" : [""],
+	"transitionFunction" : [
+		{
+			"previousState" : "",
+			"readSymbol" : "",
+			"newState" : "",
+			"writtenSymbol" : "",
+			"movement" : ""
+		}
+	],
+	
+	"tape" : ""
+}

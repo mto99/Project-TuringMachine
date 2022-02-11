@@ -1,0 +1,190 @@
+{
+	"alphabet": "01oi",
+	"allStates" : [
+		"init", "copy0", "copy1", 
+		"moveLeft","setMarkers", "end"
+	],
+	"startState" : "init",
+	"startPosition" : "first",
+	"acceptStates" : ["end"],
+	"rejectStates" : [" "],
+	"transitionFunction" : [
+		{
+			"previousState" : "init",
+			"readSymbol" : "0",
+			"newState" : "init",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "init",
+			"readSymbol" : "1",
+			"newState" : "init",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "init",
+			"readSymbol" : "o",
+			"newState" : "init",
+			"writtenSymbol" : "o",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "init",
+			"readSymbol" : "i",
+			"newState" : "init",
+			"writtenSymbol" : "i",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "init",
+			"readSymbol" : " ",
+			"newState" : "moveLeft",
+			"writtenSymbol" : " ",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "0",
+			"newState" : "copy0",
+			"writtenSymbol" : "o",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "1",
+			"newState" : "copy1",
+			"writtenSymbol" : "i",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "o",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "o",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : "i",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "i",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "moveLeft",
+			"readSymbol" : " ",
+			"newState" : "setMarkers",
+			"writtenSymbol" : " ",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy0",
+			"readSymbol" : " ",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "o",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "copy0",
+			"readSymbol" : "0",
+			"newState" : "copy0",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy0",
+			"readSymbol" : "1",
+			"newState" : "copy0",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy0",
+			"readSymbol" : "o",
+			"newState" : "copy0",
+			"writtenSymbol" : "o",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy0",
+			"readSymbol" : "i",
+			"newState" : "copy0",
+			"writtenSymbol" : "i",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy1",
+			"readSymbol" : " ",
+			"newState" : "moveLeft",
+			"writtenSymbol" : "i",
+			"movement" : "L"
+		},
+		{
+			"previousState" : "copy1",
+			"readSymbol" : "0",
+			"newState" : "copy1",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy1",
+			"readSymbol" : "1",
+			"newState" : "copy1",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy1",
+			"readSymbol" : "o",
+			"newState" : "copy1",
+			"writtenSymbol" : "o",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "copy1",
+			"readSymbol" : "i",
+			"newState" : "copy1",
+			"writtenSymbol" : "i",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "setMarkers",
+			"readSymbol" : " ",
+			"newState" : "end",
+			"writtenSymbol" : " ",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "setMarkers",
+			"readSymbol" : "0",
+			"newState" : "setMarkers",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "setMarkers",
+			"readSymbol" : "1",
+			"newState" : "setMarkers",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "setMarkers",
+			"readSymbol" : "o",
+			"newState" : "setMarkers",
+			"writtenSymbol" : "0",
+			"movement" : "R"
+		},
+		{
+			"previousState" : "setMarkers",
+			"readSymbol" : "i",
+			"newState" : "setMarkers",
+			"writtenSymbol" : "1",
+			"movement" : "R"
+		}
+	],
+	
+	"tape" : "1001"
+}
