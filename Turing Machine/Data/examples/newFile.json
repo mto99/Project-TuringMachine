@@ -3,8 +3,8 @@
 	"allStates" : [""],
 	"startState" : "",
 	"startPosition" : "",
-	"accepState" : [""],
-	"rejectState" : [""],
+	"acceptStates" : [""],
+	"rejectStates" : [""],
 	"transitionFunction" : [
 		{
 			"previousState" : "",
