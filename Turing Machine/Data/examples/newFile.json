@@ -1,11 +1,10 @@
 {
 	"alphabet": "",
-	"states" : [
-		
-	],
+	"allStates" : [""],
 	"startState" : "",
-	"accepState" : "",
-	"rejectState" : "",
+	"startPosition" : "",
+	"accepState" : [""],
+	"rejectState" : [""],
 	"transitionFunction" : [
 		{
 			"previousState" : "",
