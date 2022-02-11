@@ -1,12 +1,12 @@
 {
 	"alphabet": "01",
 	"allStates" : [
-		"zero", "one"
+		"zero", "one","accept"
 	],
 	"startState" : "zero",
 	"startPosition" : "first",
-	"acceptStates" : [""],
-	"rejectStates" : [""],
+	"acceptStates" : ["accept"],
+	"rejectStates" : [" "],
 	"transitionFunction" : [
 		{
 			"previousState" : "zero",

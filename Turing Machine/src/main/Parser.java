@@ -110,10 +110,18 @@ public class Parser {
 							state = new State(node.asText());
 							if(state.toString().equals("") || state.toString().equals(" "))// || state.toString().equals(" "))
 							{
-								//cancel  = "1";
-								System.out.println(s + ": BLANK OR NO VALUE\n ");
-								erg += s + ": BLANK OR NO VALUE\n";
-								System.out.println(root.get(s));
+								if(s.equals("rejectStates") && state.toString().equals(" "))
+								{
+									//Do nothing
+								}
+								else
+								{
+									//cancel  = "1";
+									System.out.println(s + ": BLANK OR NO VALUE\n ");
+									erg += s + ": BLANK OR NO VALUE\n";
+									System.out.println(root.get(s));
+								}
+								
 							}
 						}
 						else

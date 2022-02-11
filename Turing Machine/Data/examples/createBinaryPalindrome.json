@@ -7,7 +7,7 @@
 	"startState" : "init",
 	"startPosition" : "first",
 	"acceptStates" : ["end"],
-	"rejectStates" : [""],
+	"rejectStates" : [" "],
 	"transitionFunction" : [
 		{
 			"previousState" : "init",
